@@ -1,0 +1,56 @@
+.childList {
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+input[editext="input"] {
+    border-radius: 5px;
+    background-color: '#233C51';
+    color: '#E6ECF1';
+    border-radius: 5;
+    height: 30px;
+    width: 400px;
+}
+
+.branch {
+    fill: #eefbfb;
+    cursor: hand;
+    stroke: skyblue;
+    stroke-width: 1px;
+    stroke-opacity: 1;
+    stroke-linecap: round;
+}
+
+.leaf {
+    fill: #eefbf5;
+}
+
+.smallTitle {
+    font: 11px sans-serif;
+}
+
+.treeFormTitle {
+    font: 12px sans-serif;
+}
+
+.mindMapFormContainer {
+    width: 270px;
+}
+
+
+
+/* forms stuff
+input, textarea {
+    font    : 1.4em/1.5em "handwriting", cursive, sans-serif;
+    border  : none;
+    padding : 0 10px;
+    margin  : 0;
+    width   : 80%;
+    background : none;
+}
+
+input:focus, textarea:focus {
+    background   : rgba(0,0,0,.1);
+    border-radius: 5px;
+}
+*/

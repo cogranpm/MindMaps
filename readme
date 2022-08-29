@@ -1,0 +1,17 @@
+a react front end only app based on typescript and parcel for the build
+
+using parcel due to simple support for web workers
+
+scripts:
+npm run start 
+npm run build 
+
+typecheck:
+run tsc in the root directory
+: note this fails after adding web worker as needed to change moduleResolution to esnext to support import.meta.url
+build and stuff seems to still work so it's under investigation
+
+preview prod build:
+run this in the dist directory after doing a build: python -m http.server
+refer to this link for explanation: https://threejs.org/docs/#manual/en/introduction/How-to-run-things-locally
+
