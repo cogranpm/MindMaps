@@ -28,7 +28,6 @@ export const Title = (props: TitleProps) => {
         style: {
           fontFamily: "'Roboto', san serif",
           fontSize: "9pt",
-          color: "red"
         },
       }}
     />

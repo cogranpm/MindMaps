@@ -110,7 +110,7 @@ export const Tree = (props: TreeProps) => {
           id="svg"
           xmlns="http://www.w3.org/2000/svg"
           fill="white"
-          width={SCENE_WIDTH}
+          width={SCENE_WIDTH + 5}
           height={mindMap !== undefined ? mindMap.height : 0}
           version="1.1"
           onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}

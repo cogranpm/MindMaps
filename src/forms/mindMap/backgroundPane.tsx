@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { RECT_CORNER_RADIUS, SCENE_HEIGHT, SCENE_WIDTH, ShapeType, TRUNK_WIDTH, XOrientation } from '../../shared/constants';
 import { addBranch } from '../models/mindMaps/modelHandlers';
 import { AppContext } from '../models/mindMaps/context';
-import { getMindMapFromCache, makeBranch } from '../models/mindMaps/factories';
+import { getMindMapFromCache } from '../models/mindMaps/factories';
 import { MindMap } from '../models/mindMaps/state';
 import { calculatePaneWidth, calculateRightPaneX } from '../models/mindMaps/ui_calculations';
 

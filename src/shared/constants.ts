@@ -1,7 +1,7 @@
 export const DB_PREFIX = "kernai";
-export const SCENE_WIDTH = 1800;
+export const SCENE_WIDTH = 1865;
 export const SCENE_HEIGHT = 2200;
-export const TRUNK_WIDTH = 30;
+export const TRUNK_WIDTH = 90;
 export const BRANCH_HEIGHT = 35;
 export const BRANCH_VERTICAL_SPACE = 80;
 export const RECT_CORNER_RADIUS = 15;

@@ -12,6 +12,15 @@ input[editext="input"] {
     width: 400px;
 }
 
+.trunk{
+    fill: #e7eaed;
+    cursor: hand;
+    stroke: darkgray;
+    stroke-width: 1px;
+    stroke-opacity: 1;
+    stroke-linecap: round;
+}
+
 .branch {
     fill: #e7eaed;
     cursor: hand;

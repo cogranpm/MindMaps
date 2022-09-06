@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
 import "./index.css";
+import "./public/fonts/IBMPlexMono-Thin.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 import { startDatabaseWorker, initializeLocalDatabases, closeLocalDatabases } from "./shared/workerClient";
 import { logMessage } from "./shared/errorHandling";
