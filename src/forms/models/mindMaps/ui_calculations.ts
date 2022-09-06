@@ -15,7 +15,7 @@ export const calculateRightPaneX = (sceneWidth: number, trunkWidth: number) => {
 }
 
 export const calculateBranchWidth = (sceneWidth: number, trunkWidth: number) => {
-    return (sceneWidth / 2) - (trunkWidth / 2);
+    return (sceneWidth / 2) - (trunkWidth / 2) - 4;
 }
 
 export const calculateBranchY = (index: number, branchHeight: number, branchVerticalSpace: number) => {

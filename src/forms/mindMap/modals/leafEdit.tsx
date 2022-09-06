@@ -365,6 +365,24 @@ export const LeafEditor = (props: LeafEditorProps) => {
         }
     };
 
+    const getLeafTypeTitle = (type: LeafType): string => {
+        const typeToTitleLookup = new Map<LeafType, string>([
+            [LeafType.MindMap, "Mind Map"],
+            [LeafType.Snippet, "Snippet"],
+            [LeafType.Link, "Link"],
+            [LeafType.Note, "Note"],
+            [LeafType.Test, "Test"]
+        ]);
+
+        //type == LeafType.MindMap
+        const separator = " - ";
+        let title = "";
+        if (typeToTitleLookup.has(type)) {
+            title = typeToTitleLookup.get(type) as string;
+        }
+        return `${separator}${title}`;
+    };
+
     return (
         <Modal show={true} onEscapeKeyDown={handleClose} size="xl">
             <Modal.Body>
@@ -372,7 +390,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
                     fontFamily: "'IBM Plex Mono', san serif",
                     fontWeight: "bold",
                     fontSize: "18pt"
-                }}>Editor</p>
+                }}>Editor{getLeafTypeTitle(type)}</p>
                 <hr />
 
                 <Form onSubmit={(e: any) => handleSave(e)} ref={formRef}>
@@ -471,12 +489,13 @@ export const LeafEditor = (props: LeafEditorProps) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
+                          <Col>
+                          </Col>
+                          <Col xs lg="2">
                                 <Button title="Close" variant="secondary" onClick={handleClose}>
                                     Close
                                 </Button>
-                            </Col>
-                            <Col>
+                                <span style={{marginLeft:"5px"}}></span>
                                 <Button title="Save" variant="secondary" type="submit" ref={submitRef}>
                                     Submit
                                 </Button>

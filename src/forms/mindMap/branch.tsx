@@ -106,9 +106,9 @@ export const TreeBranch = ({ children }: BranchProps) => {
                     id="branchToolbar"
                     x={
                         branch.orientation === XOrientation.Left
-                            ? calculateBranchWidth(SCENE_WIDTH, TRUNK_WIDTH) -
-                            TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT
-                            : SCENE_WIDTH - TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT
+                        ? (calculateBranchWidth(SCENE_WIDTH, TRUNK_WIDTH) -
+                           (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
+                        : (SCENE_WIDTH - (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
                     }
                     y={y + TITLE_TOP_PADDING}
                     width={TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT}
