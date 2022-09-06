@@ -12,66 +12,63 @@ import { persist } from "~src/shared/workerClient";
 import { FETCH_ID_PUTMINDMAP } from "~src/shared/constants";
 
 interface LinkEditorProps {
-  leaf: Leaf;
-  childMindMap: MindMap | undefined;
-  setChildMindMap: Dispatch<MindMap | undefined>;
-  addingChildMap: boolean;
-  saveHandler: () => void;
+    leaf: Leaf;
+    childMindMap: MindMap | undefined;
+    setChildMindMap: Dispatch<MindMap | undefined>;
+    addingChildMap: boolean;
+    saveHandler: () => void;
 }
 
 export const MindMapEditor = (props: LinkEditorProps) => {
-  const { state, dispatch } = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
 
-  const handleClick = async (e: any) => {
-    /* if childMindMap does not exist, then persist it now */
-    if (props.childMindMap) {
-      let mindMapToOpen = props.childMindMap as MindMap;
-      if (props.addingChildMap) {
-        /*
-        mindMapToOpen = await create(props.childMindMap);
+    const handleClick = async (e: any) => {
+        /* if childMindMap does not exist, then persist it now */
+        if (props.childMindMap) {
+            let mindMapToOpen = props.childMindMap as MindMap;
+            if (props.addingChildMap) {
+                /*
+                mindMapToOpen = await create(props.childMindMap);
+                dispatch({
+                  type: ActionType.Add,
+                  payload: { newMindMap: mindMapToOpen as MindMap },
+                });
+                */
+                persist(FETCH_ID_PUTMINDMAP, props.childMindMap, createMindMapCallback);
+            }
+            props.saveHandler();
+            dispatch({
+                type: ActionType.OpenTab,
+                payload: { entity: mindMapToOpen },
+            });
+        }
+    };
+
+    const createMindMapCallback = (e: Content) => {
+        const entity = e as MindMap;
         dispatch({
-          type: ActionType.Add,
-          payload: { newMindMap: mindMapToOpen as MindMap },
+            type: ActionType.Add,
+            payload: { newMindMap: entity as MindMap },
         });
-        */
-        persist(FETCH_ID_PUTMINDMAP, props.childMindMap, createMindMapCallback);
-      }
-      props.saveHandler();
-      dispatch({
-        type: ActionType.OpenTab,
-        payload: { entity: mindMapToOpen },
-      });
-    }
-  };
+        props.saveHandler();
+        dispatch({ type: ActionType.OpenTab, payload: { entity: entity } });
+    };
 
-  const createMindMapCallback = (e: Content) => {
-    const entity = e as MindMap;
-    dispatch({
-      type: ActionType.Add,
-      payload: { newMindMap: entity as MindMap },
-    });
-    props.saveHandler();
-    dispatch({ type: ActionType.OpenTab, payload: { entity: entity } });
-  };
-
-  return (
-    <section>
-      <h2 className="hidden">Link Editor</h2>
-      <Form.Group as={Row} className="mb-3" controlId="link">
-        <Form.Label column sm={2}>
-          Mind Map
-        </Form.Label>
-        <Col>
-          <Form.Control
-            required
-            type="button"
-            name="mindMap"
-            size="sm"
-            value={props.childMindMap ? props.childMindMap.name : "untitled"}
-            onClick={handleClick}
-          ></Form.Control>
-        </Col>
-      </Form.Group>
-    </section>
-  );
+    return (
+        <Form.Group as={Row} className="mb-8" controlId="link">
+            <Form.Label column sm={2}>
+                Mind Map
+            </Form.Label>
+            <Col>
+                <Form.Control
+                    required
+                    type="button"
+                    name="mindMap"
+                    size="sm"
+                    value={props.childMindMap ? props.childMindMap.name : "untitled"}
+                    onClick={handleClick}
+                ></Form.Control>
+            </Col>
+        </Form.Group>
+    );
 };

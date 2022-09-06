@@ -15,8 +15,6 @@ export const LinkEditor = (props: LinkEditorProps) => {
     }
 
     return (
-        <section>
-            <h2 className="hidden">Link Editor</h2>
             <Form.Group as={Row} className="mb-3" controlId="link">
                 <Form.Label column sm={2}>Link</Form.Label>
                 <Col>
@@ -32,6 +30,5 @@ export const LinkEditor = (props: LinkEditorProps) => {
                     </Form.Control>
                 </Col>
             </Form.Group>
-        </section>
     )
 }

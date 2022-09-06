@@ -1,6 +1,6 @@
 /***************
  * the data for this is just a string
- * string will be stored in it's own table 
+ * string will be stored in it's own table
  ****************/
 
 import React, { useState } from 'react';
@@ -61,9 +61,8 @@ export const SnippetEditor = (props: SnippetEditorProps) => {
     }
 
     return (
-        <section style={{ display: 'flex', flexDirection: 'column' }}>
-            <h2 className="hidden">Snippet Editor</h2>
-            <Form.Group controlId="snippet">
+      <>
+           <Form.Group controlId="snippet">
                 <Form.Label column sm={2}>Snippet</Form.Label>
                 <AceWrapper
                     name="body"
@@ -102,6 +101,6 @@ export const SnippetEditor = (props: SnippetEditorProps) => {
                     showGutter={false}
                 />
             </Form.Group>
-        </section>
+      </>
     )
 }

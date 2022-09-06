@@ -147,7 +147,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
         setBody(existing as LongText);
       }
     };
-  
+
     const initializeOtherTypes = async () => {
       switch (type) {
         case LeafType.Test:
@@ -162,7 +162,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
         default:
       }
     };
-  
+
     const initializeSnippet = async () => {
       const existingSnippet = await loadSnippet(props.leaf);
       if (!existingSnippet) {
@@ -171,7 +171,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
         setSnippet(existingSnippet as LongText);
       }
     };
-  
+
     const initializeMindMap = async () => {
       const existingMindMap = await loadMindmapByLeaf(props.leaf);
       if (!existingMindMap) {
@@ -192,7 +192,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
         initializeMindMapCallback
       );
     };
-  
+
     const initializeMindMapCallback = (e: Content) => {
       const result = e as PouchDB.Find.FindResponse<Content>;
       if (result.docs.length === 0) {
@@ -206,7 +206,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
         setAddingChildMap(false);
       }
     };
-  
+
     const initializeTest = async () => {
       const existing = await get(props.leaf.id);
       if (existing) {
@@ -256,7 +256,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
                 const updatedEntity = await persist(updatedMindMap);
                 await saveOther();
                 await saveBody();
-        
+
                 //update the global state
                 dispatch({
                   type: ActionType.HideLeafEditor,
@@ -300,7 +300,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
         const updatedBody = await persistLongText(body as LongText);
       }
     };
-  
+
     const saveOther = async () => {
       // save the externally related stuff
       switch (type) {
@@ -315,7 +315,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
         default:
       }
     };
-  
+
     const saveTest = async () => {
       setTest(await persistTest(test));
       await persistTestAudio(test);
@@ -368,7 +368,12 @@ export const LeafEditor = (props: LeafEditorProps) => {
     return (
         <Modal show={true} onEscapeKeyDown={handleClose} size="xl">
             <Modal.Body>
-                <h4>Leaf Editor</h4>
+                <p style={{
+                    fontFamily: "'IBM Plex Mono', san serif",
+                    fontWeight: "bold",
+                    fontSize: "18pt"
+                }}>Editor</p>
+                <hr />
 
                 <Form onSubmit={(e: any) => handleSave(e)} ref={formRef}>
                     <Container>
@@ -465,12 +470,18 @@ export const LeafEditor = (props: LeafEditorProps) => {
                                 )}
                             </Col>
                         </Row>
-                        <Button title="Close" onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button title="Save" type="submit" ref={submitRef}>
-                            Submit
-                        </Button>
+                        <Row>
+                            <Col>
+                                <Button title="Close" variant="secondary" onClick={handleClose}>
+                                    Close
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button title="Save" variant="secondary" type="submit" ref={submitRef}>
+                                    Submit
+                                </Button>
+                            </Col>
+                        </Row>
                     </Container>
                 </Form>
             </Modal.Body>
