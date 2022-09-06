@@ -23,117 +23,136 @@ import { persist } from "~src/shared/workerClient";
 import { FETCH_ID_PUTMINDMAP } from "~src/shared/constants";
 
 export function MindMapView() {
-  const [state, dispatch] = useReducer(appReducer, initialAppState);
+    const [state, dispatch] = useReducer(appReducer, initialAppState);
 
-  useEffect(() => {
-    logMessage("map just rendered");
-  });
-
-  const handleSave = async (e: string) => {
-    try {
-      const mindMap = getMindMapFromCache(state);
-      if (mindMap !== undefined) {
-        mindMap.name = e;
-        persist(FETCH_ID_PUTMINDMAP, mindMap, saveCallback);
-        /*
-        const updatedMindMap = await persist(mindMap);
-        dispatch({
-          type: ActionType.EditMindMap,
-          payload: { updatedEntity: updatedMindMap },
-        });
-        */
-      }
-    } catch (err) {
-      logSystemError(err, "Error saving mind map");
-    }
-  };
-
-  const saveCallback = (e: Content) => {
-    const updatedMindMap = e as MindMap;
-    dispatch({
-      type: ActionType.EditMindMap,
-      payload: { updatedEntity: updatedMindMap },
+    useEffect(() => {
+        logMessage("map just rendered");
     });
-  };
 
-  const handleSelect = (e: string | null) => {
-    if (e !== null) {
-      dispatch({ type: ActionType.SwitchTab, payload: { tabId: e } });
-    }
-  };
+    const handleSave = async (e: string) => {
+        try {
+            const mindMap = getMindMapFromCache(state);
+            if (mindMap !== undefined) {
+                mindMap.name = e;
+                persist(FETCH_ID_PUTMINDMAP, mindMap, saveCallback);
+            }
+        } catch (err) {
+            logSystemError(err, "Error saving mind map");
+        }
+    };
 
-  const handleCloseTab = async (tabItem: TabItem) => {
-    dispatch({ type: ActionType.CloseTab, payload: { tabItem: tabItem } });
-  };
+    const saveCallback = (e: Content) => {
+        const updatedMindMap = e as MindMap;
+        dispatch({
+            type: ActionType.EditMindMap,
+            payload: { updatedEntity: updatedMindMap },
+        });
+    };
 
-  return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      <Tabs
-        activeKey={state.activeTabId}
-        className="mb-3"
-        onSelect={handleSelect}
-      >
-        <Tab eventKey="home" title={<House />}>
-          <div>
-            <Container fluid>
-              <Row>
-                <Col>
-                  <Toolbar />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <List />
-                </Col>
-              </Row>
-            </Container>
-          </div>
-        </Tab>
-        {state.tabs.map((tabItem: TabItem) => {
-          return (
-            <Tab
-              key={tabItem.mindMap._id}
-              eventKey={tabItem.mindMap._id}
-              title={
-                <Container>
-                  <Row>
-                    <Col>
-                      <EdiText
-                        type="text"
-                        value={tabItem.mindMap.name}
-                        onSave={handleSave}
-                        tabIndex={0}
-                        editing={false}
-                        editOnViewClick={false}
-                        submitOnEnter={true}
-                        submitOnUnfocus={true}
-                        cancelOnEscape={true}
-                        startEditingOnEnter={true}
-                        showButtonsOnHover={true}
-                        buttonsAlign="after"
-                        hint="Enter Name"
-                        viewProps={{
-                          style: {
-                            color: "green",
-                          },
-                        }}
-                      />
-                    </Col>
-                    <Col>
-                      <CloseButton
-                        aria-label="Close Tab"
-                        onClick={() => handleCloseTab(tabItem)}
-                      />
-                    </Col>
-                  </Row>
-                </Container>
-              }
+    const handleSelect = (e: string | null) => {
+        if (e !== null) {
+            dispatch({ type: ActionType.SwitchTab, payload: { tabId: e } });
+        }
+    };
+
+    const handleCloseTab = async (tabItem: TabItem) => {
+        dispatch({ type: ActionType.CloseTab, payload: { tabItem: tabItem } });
+    };
+
+    return (
+        <AppContext.Provider value={{ state, dispatch }}>
+            <Tabs
+                activeKey={state.activeTabId}
+                className="mb-3"
+                onSelect={handleSelect}
             >
-              <Tree tabItem={tabItem}></Tree>
-            </Tab>
-          );
-        })}
-      </Tabs>
-    </AppContext.Provider>
-  );
+                <Tab eventKey="home" title={<House />}>
+                    <div>
+                        <Container fluid>
+                            <Row>
+                                <Col>
+                                    <Toolbar />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <List />
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                </Tab>
+                {state.tabs.map((tabItem: TabItem) => {
+                    return (
+                        <Tab
+                            key={tabItem.mindMap._id}
+                            eventKey={tabItem.mindMap._id}
+                            title={
+                                <Container>
+                                    <Row>
+                                        <Col>
+                                            <EdiText
+                                                type="text"
+                                                value={tabItem.mindMap.name}
+                                                onSave={handleSave}
+                                                tabIndex={0}
+                                                editing={false}
+                                                editOnViewClick={false}
+                                                submitOnEnter={true}
+                                                submitOnUnfocus={true}
+                                                cancelOnEscape={true}
+                                                startEditingOnEnter={true}
+                                                showButtonsOnHover={true}
+                                                buttonsAlign="after"
+                                                containerProps={{
+                                                    style: {
+                                                    }
+                                                }}
+                                                inputProps={{
+                                                    style: {
+                                                        width: "260px",
+                                                        fontFamily: "'Roboto', san serif",
+                                                        fontSize: "8pt"
+                                                    },
+
+                                                }}
+                                                editButtonProps={{
+                                                    style: {
+                                                        height: "40px",
+                                                        width: "50px",
+                                                        borderRadius: "5px",
+                                                      padding: "0"
+                                                    }
+                                                }}
+                                                viewProps={{
+                                                    style: {
+                                                        margin: "0",
+                                                        padding: "0",
+                                                        fontFamily: "'Roboto', san serif",
+                                                        fontSize: "9pt",
+                                                        color: "#000000",
+                                                        minWidth: "130px",
+                                                        maxWidth: "200px",
+                                                        width: "auto"
+                                                    },
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col>
+                                            <CloseButton
+                                                aria-label="Close Tab"
+                                                onClick={() => handleCloseTab(tabItem)}
+                                            />
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            }
+                        >
+                            <Tree tabItem={tabItem}></Tree>
+                        </Tab>
+                    );
+                })}
+            </Tabs>
+        </AppContext.Provider>
+    );
 }

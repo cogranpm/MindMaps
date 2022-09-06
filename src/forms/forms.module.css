@@ -13,20 +13,27 @@ input[editext="input"] {
 }
 
 .branch {
-    fill: #eefbfb;
+    fill: #e7eaed;
     cursor: hand;
-    stroke: skyblue;
+    stroke: darkgray;
     stroke-width: 1px;
     stroke-opacity: 1;
     stroke-linecap: round;
 }
 
 .leaf {
-    fill: #eefbf5;
+    fill: #e7eaed;
+    cursor: hand;
+    stroke: darkgray;
+    stroke-width: 1px;
+    stroke-opacity: 1;
+    stroke-linecap: round;
 }
 
 .smallTitle {
-    font: 11px sans-serif;
+    font-family: 'Roboto', san serif;
+    font-size: 9pt;
+    font-weight: lighter;
 }
 
 .treeFormTitle {

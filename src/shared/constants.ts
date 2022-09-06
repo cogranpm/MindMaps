@@ -2,11 +2,13 @@ export const DB_PREFIX = "kernai";
 export const SCENE_WIDTH = 1800;
 export const SCENE_HEIGHT = 2200;
 export const TRUNK_WIDTH = 30;
-export const BRANCH_HEIGHT = 30;
+export const BRANCH_HEIGHT = 35;
 export const BRANCH_VERTICAL_SPACE = 80;
 export const RECT_CORNER_RADIUS = 15;
 export const NULL_TITLE = "untitled";
 export const TITLE_HEIGHT = 40;
+export const TITLE_INDENT = 10;
+export const TITLE_TOP_PADDING = 2;
 export const ENTER_KEY = "Enter";
 export const DELETE_KEY = "Delete";
 export const ESCAPE_KEY = "Escape";
@@ -65,5 +67,3 @@ export enum ShapeType {
   LeafEditButton,
   Unknown
 };
-
-

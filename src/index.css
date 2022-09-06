@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.mini-select {
+    padding: 0;
+    margin: 0;
+    line-height: 20px;
+    font-size: 8pt;
+}
+
+select > option {
+    font-size: 8pt;
+}

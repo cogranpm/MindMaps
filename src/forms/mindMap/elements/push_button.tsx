@@ -11,7 +11,7 @@ export interface PushButtonProps {
 export const PushButton = (props: PushButtonProps) => {
     return (
         <foreignObject x={props.x} y={props.y} width="32" height="32">
-            <Button variant="outline-info" size="sm" onClick={props.onClick}>
+            <Button variant="secondary" size="sm" onClick={props.onClick}>
                 {props.children}
             </Button>
         </foreignObject>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import EdiText from "react-editext";
 
 type TitleProps = {
@@ -26,7 +26,9 @@ export const Title = (props: TitleProps) => {
       buttonsAlign="after"
       viewProps={{
         style: {
-          color: "green",
+          fontFamily: "'Roboto', san serif",
+          fontSize: "9pt",
+          color: "red"
         },
       }}
     />

@@ -11,7 +11,9 @@ import {
   ShapeType,
   TITLE_HEIGHT,
   TRUNK_WIDTH,
-  XOrientation,
+  TITLE_INDENT,
+    XOrientation,
+    TITLE_TOP_PADDING,
 } from "../../shared/constants";
 import { Branch, Leaf, LeafType, MindMap } from "../models/mindMaps/state";
 import { calculateBranchX } from "../models/mindMaps/ui_calculations";
@@ -32,8 +34,9 @@ type LeafProps = {
 };
 
 const LEAF_WIDTH = 160;
-const LEAF_HEIGHT = 20;
+const LEAF_HEIGHT = 30;
 const LEAF_SPACER = 20;
+const BUTTON_INSET = 15;
 
 export const TreeLeaf = (props: LeafProps) => {
   useEffect(() => {
@@ -105,8 +108,7 @@ export const TreeLeaf = (props: LeafProps) => {
   const leaves = props.branch.leaves.map((leaf: Leaf, index: number) => {
     const x = startingX + index * (LEAF_WIDTH + LEAF_SPACER);
     const titleTop = y;
-    const titleIndent = 10;
-    const titleLeft = x + titleIndent;
+    const titleLeft = x + TITLE_INDENT;
     const titleWidth = LEAF_WIDTH;
 
     return (
@@ -116,12 +118,9 @@ export const TreeLeaf = (props: LeafProps) => {
           x={x}
           y={y}
           rx={RECT_CORNER_RADIUS}
-          height={LEAF_HEIGHT}
+          filter="url(#shadow)"
+          height={LEAF_HEIGHT + 40}
           width={LEAF_WIDTH}
-          style={{
-            stroke: "skyblue",
-            strokeWidth: "1px",
-          }}
           tabIndex={0}
           onClick={(e) => handleLeafClick(e)}
           onKeyDown={(e: React.KeyboardEvent) => handleLeafKeyPress(e, leaf)}
@@ -130,11 +129,10 @@ export const TreeLeaf = (props: LeafProps) => {
           data-branch-id={props.branch.id}
         />
         <text
-          y={titleTop + (LEAF_HEIGHT / 2)}
+          y={titleTop + TITLE_TOP_PADDING + (LEAF_HEIGHT / 2)}
           x={titleLeft}
           width={titleWidth}
           height={TITLE_HEIGHT}
-          fill="blue"
           tabIndex={0}
           onKeyDown={(e: React.KeyboardEvent) =>
             handleLeafTitleKeyPress(e, leaf)
@@ -142,18 +140,19 @@ export const TreeLeaf = (props: LeafProps) => {
           data-shape-type={ShapeType.LeafTitle}
           data-leaf-id={leaf.id}
           className={styles.smallTitle}
+          fill="#000000"
         >
           {leaf.title}
         </text>
         <PushButton
-          x={x}
+          x={x + BUTTON_INSET}
           y={y + LEAF_HEIGHT}
           onClick={() => handleViewClick(leaf)}
         >
           <Eye />
         </PushButton>
         <PushButton
-          x={x + 32}
+          x={x + 32 + BUTTON_INSET}
           y={y + LEAF_HEIGHT}
           onClick={() => handleEditClick(leaf)}
         >
@@ -161,7 +160,7 @@ export const TreeLeaf = (props: LeafProps) => {
         </PushButton>
         {leaf.type === LeafType.Link ? (
           <PushButton
-            x={x + 32 + 32}
+            x={x + 32 + 32 + BUTTON_INSET}
             y={y + LEAF_HEIGHT}
             onClick={() => handleLink(leaf)}
           >
@@ -172,7 +171,7 @@ export const TreeLeaf = (props: LeafProps) => {
         )}
         {leaf.type === LeafType.MindMap ? (
           <PushButton
-            x={x + 32 + 32}
+            x={x + 32 + 32 + BUTTON_INSET}
             y={y + LEAF_HEIGHT}
             onClick={() => handleMindMap(leaf)}
           >
@@ -187,7 +186,7 @@ export const TreeLeaf = (props: LeafProps) => {
             overlay={<Tooltip id={leaf.id + "_testRuns"}>Test Runs</Tooltip>}
           >
             <PushButton
-              x={x + 32 + 32}
+              x={x + 32 + 32 + BUTTON_INSET}
               y={y + LEAF_HEIGHT}
               onClick={() => handleTest(leaf)}
             >

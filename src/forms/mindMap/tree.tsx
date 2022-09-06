@@ -115,6 +115,9 @@ export const Tree = (props: TreeProps) => {
           version="1.1"
           onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}
         >
+          <filter id="shadow" x="0" y="0" width="200%" height="200%">
+            <feDropShadow dx="3" dy="3" stdDeviation="1" flood-color="darkgray" flood-opacity="1" />
+          </filter>
           <Trunk />
           <BackgroundPane orientation={XOrientation.Left} />
           <BackgroundPane orientation={XOrientation.Right} />

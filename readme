@@ -3,8 +3,8 @@ a react front end only app based on typescript and parcel for the build
 using parcel due to simple support for web workers
 
 scripts:
-npm run start 
-npm run build 
+npm run start
+npm run build
 
 typecheck:
 run tsc in the root directory
@@ -15,3 +15,11 @@ preview prod build:
 run this in the dist directory after doing a build: python -m http.server
 refer to this link for explanation: https://threejs.org/docs/#manual/en/introduction/How-to-run-things-locally
 
+
+### Cloudflare Deployment
+https://3370f2e5.mindmaps.pages.dev/
+
+is linked to github project:
+https://github.com/cogranpm/MindMaps
+
+a push to the remote will update the cloudflare site
