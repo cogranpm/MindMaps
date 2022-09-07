@@ -48,7 +48,7 @@ export const App = () => {
                         style={{
                           fontFamily: "'IBM Plex Mono', san serif",
                           fontWeight: "bold"
-                        }}>Thought Catcher</Navbar.Brand>
+                        }}>Brain Dump</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
