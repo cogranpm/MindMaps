@@ -112,7 +112,7 @@ export function MindMapView() {
                                                     style: {
                                                         width: "260px",
                                                         fontFamily: "'Roboto', san serif",
-                                                        fontSize: "8pt"
+                                                        fontSize: "9pt"
                                                     },
 
                                                 }}

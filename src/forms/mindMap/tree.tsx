@@ -21,125 +21,126 @@ import { Content } from "~src/shared/workerMessages";
 import * as styles from "../forms.module.css";
 
 type TreeProps = {
-  children?: React.ReactNode;
-  tabItem: TabItem;
+    children?: React.ReactNode;
+    tabItem: TabItem;
 };
 
 export const Tree = (props: TreeProps) => {
-  useEffect(() => {
-    logMessage("Tree just rendered.");
-  });
-
-
-  const { state, dispatch } = useContext(AppContext);
-
-  useLayoutEffect(() => {
-    logMessage("focus was set");
-    if (state.elementToFocus) {
-      const element = document.getElementById(state.elementToFocus);
-      if (element) {
-        element.focus();
-        dispatch({ type: ActionType.FocusElement, payload: { id: "" } });
-      }
-    }
-  });
-
-
-  const mindMap = getMindMapFromCache(state) as MindMap;
-
-  const handleClose = () => {
-    dispatch({
-      type: ActionType.HideTitleEditor,
-      payload: { updatedEntity: mindMap },
+    useEffect(() => {
+        logMessage("Tree just rendered.");
     });
-  };
 
-  const handleSave = async (e: string) => {
-    if (state.activeEntity !== null) {
-      state.activeEntity.title = e;
-    }
 
-    save();
-  };
+    const { state, dispatch } = useContext(AppContext);
 
-  const addBranchHandler = async (map: MindMap, orientation: XOrientation) => {
-    addBranch(map, orientation, dispatch);
-  };
-
-  const handleChangeType = async (event: any) => {
-    mindMap.defaultLeafType = event.target.value;
-    save();
-  };
-
-  /*
-  const save = async () => {
-    const updatedMindMap = await persist(mindMap);
-    dispatch({
-      type: ActionType.HideTitleEditor,
-      payload: { updatedEntity: updatedMindMap },
+    useLayoutEffect(() => {
+        if (state.elementToFocus) {
+            const element = document.getElementById(state.elementToFocus);
+            if (element) {
+                element.focus();
+                dispatch({ type: ActionType.FocusElement, payload: { id: "" } });
+            }
+        }
     });
-  };
-  */
-  const save = async () => {
-    persist(FETCH_ID_TREEPERSIST, mindMap, saveCallback);
-  };
 
-  const saveCallback = (e: Content) => {
-    const updatedMindMap = e as MindMap;
-    dispatch({
-      type: ActionType.HideTitleEditor,
-      payload: { updatedEntity: updatedMindMap },
-    });
-    if (state.activeEntity) {
-      dispatch({ type: ActionType.FocusElement, payload: { id: state.activeEntity.id } });
-    }
-  };
 
-  return (
-    <div className={styles.mindMapFormContainer}>
-      {mindMap ? (
-        <MindMapForm
-          mindMap={mindMap}
-          defaultLeafTypeChangeHandler={handleChangeType}
-        />
-      ) : (
-        ""
-      )}
-      <div>
-        <svg
-          id="svg"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="white"
-          width={SCENE_WIDTH + 5}
-          height={mindMap !== undefined ? mindMap.height : 0}
-          version="1.1"
-          onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}
-        >
-          <filter id="shadow" x="0" y="0" width="200%" height="200%">
-            <feDropShadow dx="3" dy="3" stdDeviation="1" flood-color="darkgray" flood-opacity="1" />
-          </filter>
-          <Trunk />
-          <BackgroundPane orientation={XOrientation.Left} />
-          <BackgroundPane orientation={XOrientation.Right} />
-          <TreeBranch />
-        </svg>
-        {state.showTitleEditor ? (
-          <TitleEditor
-            handleClose={handleClose}
-            title={state.activeEntity ? state.activeEntity.title : ""}
-            handleSave={handleSave}
-          />
-        ) : state.showLeafEditor ? (
-          <LeafEditor leaf={state.activeEntity as Leaf} />
-        ) : state.showLeafViewer ? (
-          <LeafViewer leaf={state.activeEntity as Leaf} />
-        ) : state.showTestRunEditor ? (
-          <TestRunEditor leaf={state.activeEntity as Leaf} />
-        ) : (
-          ""
-        )}
-      </div>
-      <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu>
-    </div>
-  );
+    const mindMap = getMindMapFromCache(state) as MindMap;
+
+    const handleClose = () => {
+        dispatch({
+            type: ActionType.HideTitleEditor,
+            payload: { updatedEntity: mindMap },
+        });
+
+
+    };
+
+    const handleSave = async (e: string) => {
+        if (state.activeEntity !== null) {
+            state.activeEntity.title = e;
+        }
+
+        save();
+    };
+
+    const addBranchHandler = async (map: MindMap, orientation: XOrientation) => {
+        addBranch(map, orientation, dispatch);
+    };
+
+    const handleChangeType = async (event: any) => {
+        mindMap.defaultLeafType = event.target.value;
+        save();
+    };
+
+    /*
+    const save = async () => {
+      const updatedMindMap = await persist(mindMap);
+      dispatch({
+        type: ActionType.HideTitleEditor,
+        payload: { updatedEntity: updatedMindMap },
+      });
+    };
+    */
+    const save = async () => {
+        persist(FETCH_ID_TREEPERSIST, mindMap, saveCallback);
+    };
+
+    const saveCallback = (e: Content) => {
+        const updatedMindMap = e as MindMap;
+        dispatch({
+            type: ActionType.HideTitleEditor,
+            payload: { updatedEntity: updatedMindMap },
+        });
+        if (state.activeEntity) {
+            dispatch({ type: ActionType.FocusElement, payload: { id: state.activeEntity.id } });
+        }
+    };
+
+    return (
+        <div className={styles.mindMapFormContainer}>
+            {mindMap ? (
+                <MindMapForm
+                    mindMap={mindMap}
+                    defaultLeafTypeChangeHandler={handleChangeType}
+                />
+            ) : (
+                ""
+            )}
+            <div>
+                <svg
+                    id="svg"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    width={SCENE_WIDTH + 5}
+                    height={mindMap !== undefined ? mindMap.height : 0}
+                    version="1.1"
+                    onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}
+                >
+                    <filter id="shadow" x="0" y="0" width="200%" height="200%">
+                        <feDropShadow dx="3" dy="3" stdDeviation="1" floodColor="darkgray" floodOpacity="1" />
+                    </filter>
+                    <Trunk />
+                    <BackgroundPane orientation={XOrientation.Left} />
+                    <BackgroundPane orientation={XOrientation.Right} />
+                    <TreeBranch />
+                </svg>
+                {state.showTitleEditor ? (
+                    <TitleEditor
+                        handleClose={handleClose}
+                        title={state.activeEntity ? state.activeEntity.title : ""}
+                        handleSave={handleSave}
+                    />
+                ) : state.showLeafEditor ? (
+                    <LeafEditor leaf={state.activeEntity as Leaf} />
+                ) : state.showLeafViewer ? (
+                    <LeafViewer leaf={state.activeEntity as Leaf} />
+                ) : state.showTestRunEditor ? (
+                    <TestRunEditor leaf={state.activeEntity as Leaf} />
+                ) : (
+                    ""
+                )}
+            </div>
+            <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu>
+        </div>
+    );
 };

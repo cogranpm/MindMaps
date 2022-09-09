@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'ace-builds';
 import AceEditor from "react-ace";
 //import 'ace-builds/webpack-resolver';
-import ace from 'ace-builds/src-noconflict/ace';
+//import ace from 'ace-builds/src-noconflict/ace';
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-markdown";
 import "ace-builds/src-noconflict/theme-github";
@@ -24,6 +24,8 @@ import "ace-builds/src-noconflict/theme-katzenmilch";
 import "ace-builds/src-noconflict/theme-kr_theme";
 import "ace-builds/src-noconflict/theme-terminal";
 
+import 'ace-builds/src-noconflict/mode-c_cpp'
+
 import "ace-builds/src-noconflict/ext-language_tools";
 import * as vim from "ace-builds/src-noconflict/keybinding-vim";
 import * as emacs from "ace-builds/src-noconflict/keybinding-emacs";
@@ -31,7 +33,7 @@ import * as vscode from "ace-builds/src-noconflict/keybinding-vscode";
 import * as sublime from "ace-builds/src-noconflict/keybinding-sublime";
 
 
-import { Ace } from 'ace-builds';
+//import { Ace } from 'ace-builds';
 import { getPreference, PREFERENCE_EDITOR_KEYBINDING, PREFERENCE_EDITOR_THEME } from '../../../shared/preferences';
 import { logMessage } from '../../../shared/errorHandling';
 

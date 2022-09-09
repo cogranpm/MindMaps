@@ -82,18 +82,18 @@ const worker_loadTestRuns = async (message: WorkerMessage) => {
     ctx.postMessage({ id: message.id, result: testRunResponse });
 };
 
-const worker_persistTestRun = async (message: WorkerMessage) => {
+const worker_loadAnswers = async (message: WorkerMessage) => {
     const answerViewModel = await loadAnswers(message as LoadAnswersMessage);
     ctx.postMessage({ id: message.id, result: answerViewModel });
 };
 
-const worker_loadAnswers = async (message: WorkerMessage) => {
+const worker_persistTestRun = async (message: WorkerMessage) => {
     const updatedTest = await persistTestRun(message as PersistTestRunMessage);
     ctx.postMessage({ id: message.id, result: updatedTest });
 };
 
 
-ctx.onmessage = async function (e: any) {
+ctx.onmessage = async function(e: any) {
     const message = e.data as WorkerMessage;
     switch (message.type) {
         case WorkerMessageTypes.Init:

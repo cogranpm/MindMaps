@@ -44,8 +44,8 @@ export const Trunk = () => {
                 y={20}
                 className={styles.smallTitle}
                 fill="#000000"
-                dominant-baseline="middle"
-                text-anchor="middle"
+                dominantBaseline="middle"
+                textAnchor="middle"
             >
                 Add Branch
             </text>

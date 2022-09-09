@@ -13,7 +13,7 @@ export const initializeLeaf = async (leaf: Leaf): Promise<InitializeLeafResponse
     let snippet: LongText | undefined = undefined;
     let test: Test | undefined = undefined;
     let audioQueueItems: (AudioQueueItem | undefined)[] = new Array();
-    switch (leaf.type) {
+    switch (parseInt(leaf.type, 10)) {
         case LeafType.Test:
             const testFindResult = await get(LocalDatabase.Test, leaf.id);
             if (testFindResult) {
@@ -62,7 +62,7 @@ export const persistLeaf = async (persistMessage: PersistLeafMessage): Promise<P
     if (persistMessage.body) {
         updatedBody = await persistLongText(persistMessage.body);
     }
-    switch (persistMessage.leaf.type) {
+    switch (parseInt(persistMessage.leaf.type, 10)) {
         case LeafType.Test:
             if (persistMessage.test) {
                 updatedTest = await persistTest(persistMessage.test);

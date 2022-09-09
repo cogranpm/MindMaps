@@ -18,9 +18,18 @@ export const loadTestRuns = async (message: LoadTestRunsMessage) => {
     } as LoadTestRunsResponse;
 };
 
+const shuffleQuestions = (questions: Question[]): Question[] => {
+    for (let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+    return questions;
+};
+
 export const loadAnswers = async (message: LoadAnswersMessage) => {
     const viewModel = await Promise.all(
-        message.test.questions.map(async (question) => {
+        //val shuffledList = shuffleArray(message.test.questions);
+        shuffleQuestions(message.test.questions).map(async (question) => {
             let theAnswer = message.testRun.answers.find(
                 (answer: TestRunAnswer) => answer.questionId === question.id
             );

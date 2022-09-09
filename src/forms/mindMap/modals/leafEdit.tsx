@@ -51,9 +51,9 @@ export interface LeafEditorProps {
 }
 
 const getEditorHeight = (theType: LeafType): number => {
-    switch (theType) {
+    switch (parseInt(theType, 10)) {
         case LeafType.Test:
-            return 275;
+            return 55;
         case LeafType.Snippet:
             return 75;
         case LeafType.Link:
@@ -377,8 +377,9 @@ export const LeafEditor = (props: LeafEditorProps) => {
         //type == LeafType.MindMap
         const separator = " - ";
         let title = "";
-        if (typeToTitleLookup.has(type)) {
-            title = typeToTitleLookup.get(type) as string;
+        const parsedType = parseInt(type, 10);
+        if (typeToTitleLookup.has(parsedType)) {
+            title = typeToTitleLookup.get(parsedType) as string;
         }
         return `${separator}${title}`;
     };
@@ -489,13 +490,13 @@ export const LeafEditor = (props: LeafEditorProps) => {
                             </Col>
                         </Row>
                         <Row>
-                          <Col>
-                          </Col>
-                          <Col xs lg="2">
+                            <Col>
+                            </Col>
+                            <Col xs lg="2">
                                 <Button title="Close" variant="secondary" onClick={handleClose}>
                                     Close
                                 </Button>
-                                <span style={{marginLeft:"5px"}}></span>
+                                <span style={{ marginLeft: "5px" }}></span>
                                 <Button title="Save" variant="secondary" type="submit" ref={submitRef}>
                                     Submit
                                 </Button>
