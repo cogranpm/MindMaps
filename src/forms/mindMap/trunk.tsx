@@ -8,6 +8,7 @@ import {
     ShapeType,
     TRUNK_WIDTH,
     XOrientation,
+    DROP_SHADOW_FILTER
 } from "../../shared/constants";
 import { AppContext } from "../models/mindMaps/context";
 import { getMindMapFromCache } from "../models/mindMaps/factories";
@@ -35,7 +36,6 @@ export const Trunk = () => {
                 height={mindMap ? mindMap.height : SCENE_HEIGHT}
                 tabIndex={0}
                 rx={RECT_CORNER_RADIUS}
-                filter="url(#shadow)"
                 className={styles.trunk}
                 data-shape-type={ShapeType.Trunk}
             />

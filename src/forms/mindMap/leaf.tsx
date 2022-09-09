@@ -14,6 +14,7 @@ import {
     TITLE_INDENT,
     XOrientation,
     TITLE_TOP_PADDING,
+    DROP_SHADOW_FILTER
 } from "../../shared/constants";
 import { Branch, Leaf, LeafType, MindMap } from "../models/mindMaps/state";
 import { calculateBranchX } from "../models/mindMaps/ui_calculations";
@@ -126,10 +127,10 @@ export const TreeLeaf = (props: LeafProps) => {
                     x={x}
                     y={y}
                     rx={RECT_CORNER_RADIUS}
-                    filter="url(#shadow)"
                     height={LEAF_HEIGHT + 40}
                     width={LEAF_WIDTH}
                     tabIndex={0}
+                    filter={DROP_SHADOW_FILTER}
                     onClick={(e) => handleLeafClick(e)}
                     onKeyDown={(e: React.KeyboardEvent) => handleLeafKeyPress(e, leaf)}
                     className={styles.leaf}

@@ -15,6 +15,7 @@ import {
     TOOLBAR_BUTTON_WIDTH,
     TRUNK_WIDTH,
     XOrientation,
+    DROP_SHADOW_FILTER
 } from "../../shared/constants";
 import * as styles from "../forms.module.css";
 import { AppContext } from "../models/mindMaps/context";
@@ -82,7 +83,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                     width={calculateBranchWidth(SCENE_WIDTH, TRUNK_WIDTH)}
                     height={BRANCH_HEIGHT}
                     rx={RECT_CORNER_RADIUS}
-                    filter="url(#shadow)"
+                    filter={DROP_SHADOW_FILTER}
                     tabIndex={0}
                     onKeyDown={(e: React.KeyboardEvent) => onBranchKeyPress(e, branch)}
                     className={styles.branch}

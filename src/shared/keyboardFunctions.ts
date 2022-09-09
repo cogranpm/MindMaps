@@ -273,8 +273,8 @@ function moveDown(element: Element, type: ShapeType, map: MindMap) {
 
 
 export const onKeyPress = (
-    event: React.KeyboardEvent, 
-    map: MindMap, 
+    event: React.KeyboardEvent,
+    map: MindMap,
     addBranch: (map: MindMap, orientation: XOrientation) => void) => {
     const activeElement = document.activeElement;
     if (activeElement != null) {

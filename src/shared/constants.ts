@@ -43,7 +43,8 @@ export const FETCH_ID_LOADTESTRUN = "loadtestrun";
 export const FETCH_ID_PERSISTTESTRUN = "persisttestrun";
 export const FETCH_ID_LOADANSWERS = "loadanswers";
 
-export const BUTTON_VARIANT = "secondary"
+export const BUTTON_VARIANT = "secondary";
+export const DROP_SHADOW_FILTER = "drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4))";// "drop-shadow(6px 6px 8px black)";
 
 
 export enum XOrientation {
