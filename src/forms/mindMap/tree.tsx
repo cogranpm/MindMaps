@@ -120,7 +120,7 @@ export const Tree = (props: TreeProps) => {
                     version="1.1"
                     onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}
                 >
-                    <Trunk />
+                    <Trunk saveHandler={save} />
                     <BackgroundPane orientation={XOrientation.Left} />
                     <BackgroundPane orientation={XOrientation.Right} />
                     <TreeBranch />

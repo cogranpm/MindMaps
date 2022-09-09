@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
-import { ArrowBarLeft, ArrowBarRight } from "react-bootstrap-icons"
+import { ArrowBarLeft, ArrowBarRight, ArrowBarDown} from "react-bootstrap-icons"
 import {
     RECT_CORNER_RADIUS,
     SCENE_HEIGHT,
@@ -19,13 +19,22 @@ import { MindMap } from "../models/mindMaps/state";
 
 const x = SCENE_WIDTH / 2 - TRUNK_WIDTH / 2;
 
-export const Trunk = () => {
+export interface TrunkProps{
+  saveHandler: () => void;
+}
+
+export const Trunk = (props: TrunkProps) => {
     const { state, dispatch } = useContext(AppContext);
     const mindMap = getMindMapFromCache(state) as MindMap;
 
     const onAdd = async (orientation: XOrientation) => {
         addBranch(mindMap, orientation, dispatch);
-    }
+    };
+
+  const onGrow = async () => {
+    mindMap.height = mindMap.height + 400;
+    props.saveHandler();
+  };
 
     return (
         <g width={TRUNK_WIDTH}>
@@ -80,6 +89,34 @@ export const Trunk = () => {
                     <ArrowBarRight size={16} arial-label="Add Branch" />
                 </Button>
             </foreignObject>
+            <text
+                x={x + TRUNK_WIDTH / 2}
+                y={100}
+                className={styles.smallTitle}
+                fill="#000000"
+                dominantBaseline="middle"
+                textAnchor="middle"
+            >
+               Grow
+            </text>
+            <foreignObject
+                id="branchToolbar"
+              x={x + (TRUNK_WIDTH / 2) - 16}
+                y={115}
+                width={TRUNK_WIDTH}
+                height={200}
+            >
+                <Button
+                    title="Add Branch"
+                    onClick={onGrow}
+                    tabIndex={-1}
+                    size="sm"
+                    variant="secondary"
+                >
+                    <ArrowBarDown size={16} arial-label="Grow" />
+                </Button>
+            </foreignObject>
+
 
         </g>
     );
