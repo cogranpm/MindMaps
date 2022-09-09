@@ -113,8 +113,9 @@ export const TreeLeaf = (props: LeafProps) => {
     const leaves = props.branch.leaves.map((leaf: Leaf, index: number) => {
 
         const x = startingX + index * (LEAF_WIDTH + LEAF_SPACER);
-      //place leaf line to the left a little
+        //place leaf line to the left a little
         const lineX = x + (LEAF_WIDTH / 6);
+        const otherLineX = (x + LEAF_WIDTH) - (LEAF_WIDTH / 6);
         const titleTop = y;
         const titleLeft = x + TITLE_INDENT;
         const titleWidth = LEAF_WIDTH;
@@ -122,6 +123,7 @@ export const TreeLeaf = (props: LeafProps) => {
         return (
             <g key={leaf.id}>
                 <line x1={lineX} y1={lineTop} x2={lineX} y2={lineTop + lineHeight} stroke={"black"} strokeWidth="1" />
+                <line x1={otherLineX} y1={lineTop} x2={otherLineX} y2={lineTop + lineHeight} stroke={"black"} strokeWidth="1" />
                 <rect
                     id={leaf.id}
                     x={x}
