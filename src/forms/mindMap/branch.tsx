@@ -15,7 +15,8 @@ import {
     TOOLBAR_BUTTON_WIDTH,
     TRUNK_WIDTH,
     XOrientation,
-    DROP_SHADOW_FILTER
+    DROP_SHADOW_FILTER,
+    BUTTON_VARIANT
 } from "../../shared/constants";
 import * as styles from "../forms.module.css";
 import { AppContext } from "../models/mindMaps/context";
@@ -37,6 +38,7 @@ import {
     ArrowRight,
     ArrowBarDown,
     ArrowBarUp,
+    Plus
 } from "react-bootstrap-icons";
 import {
     copyBranch,
@@ -107,14 +109,24 @@ export const TreeBranch = ({ children }: BranchProps) => {
                     id="branchToolbar"
                     x={
                         branch.orientation === XOrientation.Left
-                        ? (calculateBranchWidth(SCENE_WIDTH, TRUNK_WIDTH) -
-                           (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
-                        : (SCENE_WIDTH - (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
+                            ? (calculateBranchWidth(SCENE_WIDTH, TRUNK_WIDTH) -
+                                (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
+                            : (SCENE_WIDTH - (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
                     }
                     y={y + TITLE_TOP_PADDING}
                     width={TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT}
                     height={BRANCH_HEIGHT}
                 >
+                    <Button
+                        title="Add Leaf"
+                        onClick={() => addLeaf(branch)}
+                        tabIndex={-1}
+                        size="sm"
+                        variant={BUTTON_VARIANT}
+                    >
+                      <Plus size={16} aria-label="Add Leaf"/>
+                    </Button>
+
                     <Button
                         title="Duplicate"
                         onClick={() =>
@@ -122,7 +134,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                         }
                         tabIndex={-1}
                         size="sm"
-                        variant="secondary"
+                        variant={BUTTON_VARIANT}
                     >
                         <ArrowBarDown size={16} arial-label="Duplicate" />
                     </Button>
@@ -131,7 +143,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                         onClick={() => copyBranch(dispatch, mindMap, branch, Direction.Up)}
                         tabIndex={-1}
                         size="sm"
-                        variant="secondary"
+                        variant={BUTTON_VARIANT}
                     >
                         <ArrowBarUp size={16} aria-label="Duplicate" />
                     </Button>
@@ -142,7 +154,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                         }
                         tabIndex={-1}
                         size="sm"
-                        variant="secondary"
+                        variant={BUTTON_VARIANT}
                     >
                         <ArrowDown size={16} arial-label="Move Down" />
                     </Button>
@@ -151,7 +163,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                         onClick={() => moveBranch(dispatch, mindMap, branch, Direction.Up)}
                         tabIndex={-1}
                         size="sm"
-                        variant="secondary"
+                        variant={BUTTON_VARIANT}
                     >
                         <ArrowUp size={16} aria-label="Move Up" />
                     </Button>
@@ -163,7 +175,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                             }
                             tabIndex={-1}
                             size="sm"
-                            variant="secondary"
+                            variant={BUTTON_VARIANT}
                         >
                             <ArrowRight size={16} aria-label="Move Right" />
                         </Button>
@@ -175,7 +187,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                             }
                             tabIndex={-1}
                             size="sm"
-                            variant="secondary"
+                            variant={BUTTON_VARIANT}
                         >
                             <ArrowLeft size={16} aria-label="Move Left" />
                         </Button>
@@ -185,6 +197,16 @@ export const TreeBranch = ({ children }: BranchProps) => {
             </g>
         );
     };
+
+
+  const addLeaf = async (branch: Branch) => {
+    try {
+      const leaf = makeLeaf(branch, mindMap.defaultLeafType);
+      await addLeafToBranch(dispatch, mindMap, branch, leaf);
+    } catch (err) {
+      logSystemError(err, `error adding leaf to branch ${branch.id}`);
+    }
+  };
 
     const onBranchKeyPress = async (e: React.KeyboardEvent, branch: Branch) => {
         if (e.key === DELETE_KEY) {

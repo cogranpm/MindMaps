@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
-import { ArrowBarLeft, ArrowBarRight, ArrowBarDown} from "react-bootstrap-icons"
+import { ArrowBarLeft, ArrowBarRight, ArrowBarDown } from "react-bootstrap-icons"
 import {
     RECT_CORNER_RADIUS,
     SCENE_HEIGHT,
@@ -19,8 +19,8 @@ import { MindMap } from "../models/mindMaps/state";
 
 const x = SCENE_WIDTH / 2 - TRUNK_WIDTH / 2;
 
-export interface TrunkProps{
-  saveHandler: () => void;
+export interface TrunkProps {
+    saveHandler: () => void;
 }
 
 export const Trunk = (props: TrunkProps) => {
@@ -31,10 +31,10 @@ export const Trunk = (props: TrunkProps) => {
         addBranch(mindMap, orientation, dispatch);
     };
 
-  const onGrow = async () => {
-    mindMap.height = mindMap.height + 400;
-    props.saveHandler();
-  };
+    const onGrow = async () => {
+        mindMap.height = mindMap.height + 400;
+        props.saveHandler();
+    };
 
     return (
         <g width={TRUNK_WIDTH}>
@@ -44,6 +44,7 @@ export const Trunk = (props: TrunkProps) => {
                 width={TRUNK_WIDTH}
                 height={mindMap ? mindMap.height : SCENE_HEIGHT}
                 tabIndex={0}
+                filter={DROP_SHADOW_FILTER}
                 rx={RECT_CORNER_RADIUS}
                 className={styles.trunk}
                 data-shape-type={ShapeType.Trunk}
@@ -97,11 +98,11 @@ export const Trunk = (props: TrunkProps) => {
                 dominantBaseline="middle"
                 textAnchor="middle"
             >
-               Grow
+                Grow
             </text>
             <foreignObject
                 id="branchToolbar"
-              x={x + (TRUNK_WIDTH / 2) - 16}
+                x={x + (TRUNK_WIDTH / 2) - 16}
                 y={115}
                 width={TRUNK_WIDTH}
                 height={200}
@@ -115,6 +116,34 @@ export const Trunk = (props: TrunkProps) => {
                 >
                     <ArrowBarDown size={16} arial-label="Grow" />
                 </Button>
+            </foreignObject>
+
+            <text
+              x={x + TRUNK_WIDTH / 2}
+              y={mindMap.height - 55}
+              className={styles.smallTitle}
+              fill="#000000"
+              dominantBaseline="middle"
+              textAnchor="middle"
+            >
+              Grow
+            </text>
+            <foreignObject
+              id="branchToolbar"
+              x={x + (TRUNK_WIDTH / 2) - 16}
+              y={mindMap.height - 40}
+              width={TRUNK_WIDTH}
+              height={200}
+            >
+              <Button
+                title="Add Branch"
+                onClick={onGrow}
+                tabIndex={-1}
+                size="sm"
+                variant="secondary"
+              >
+                <ArrowBarDown size={16} arial-label="Grow" />
+              </Button>
             </foreignObject>
 
 

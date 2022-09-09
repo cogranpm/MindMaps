@@ -21,10 +21,10 @@ export const BackgroundPane = (props: BackgroundProps) => {
 
     return (
         <rect
-            x={props.orientation === XOrientation.Left ? 0 : calculateRightPaneX(SCENE_WIDTH, TRUNK_WIDTH)}
+            x={props.orientation === XOrientation.Left ? 0 : calculateRightPaneX(SCENE_WIDTH, TRUNK_WIDTH) + 8}
             y={0}
             data-shape-type={props.orientation === XOrientation.Left ? ShapeType.LeftPanel : ShapeType.RightPanel}
-            width={calculatePaneWidth(SCENE_WIDTH, TRUNK_WIDTH)}
+            width={calculatePaneWidth(SCENE_WIDTH, TRUNK_WIDTH) - 4}
             height={mindMap ? mindMap.height : SCENE_HEIGHT}
             rx={RECT_CORNER_RADIUS}
             onClick={onClickPane}

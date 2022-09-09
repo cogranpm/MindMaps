@@ -17,7 +17,7 @@ export const MIME_TYPE_AUDIO = "audio/ogg";
 export const ANSWER_ATTACHMENT_KEY = 'answer';
 export const QUESTION_ATTACHMENT_KEY = 'question';
 export const LEAF_LIMIT = 5;
-export const BRANCH_TOOLBAR_BUTTON_COUNT = 5;
+export const BRANCH_TOOLBAR_BUTTON_COUNT = 6;
 export const TOOLBAR_BUTTON_WIDTH = 35;
 
 //fetch id's, could be local storage or restful calls in future
