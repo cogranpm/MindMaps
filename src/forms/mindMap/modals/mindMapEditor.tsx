@@ -9,7 +9,7 @@ import { ActionType } from "../../models/mindMaps/actions";
 import { AppContext } from "../../models/mindMaps/context";
 import { Content } from "~src/shared/workerMessages";
 import { persist } from "~src/shared/workerClient";
-import { FETCH_ID_PUTMINDMAP } from "~src/shared/constants";
+import { BUTTON_VARIANT, FETCH_ID_PUTMINDMAP } from "~src/shared/constants";
 
 interface LinkEditorProps {
     leaf: Leaf;
@@ -55,20 +55,38 @@ export const MindMapEditor = (props: LinkEditorProps) => {
     };
 
     return (
-        <Form.Group as={Row} className="mb-8" controlId="link">
-            <Form.Label column sm={2}>
-                Mind Map
-            </Form.Label>
+        <Row>
             <Col>
-                <Form.Control
-                    required
-                    type="button"
-                    name="mindMap"
-                    size="sm"
-                    value={props.childMindMap ? props.childMindMap.name : "untitled"}
-                    onClick={handleClick}
-                ></Form.Control>
+                <Form.Group as={Row} className="mb-8" controlId="link">
+                    <Form.Label column sm={2}>
+                        Mind Map
+                    </Form.Label>
+                    <Col xs className="mb-1" >
+                      {/*
+                        <Form.Control
+                            required
+                            type="button"
+                            name="mindMap"
+                            size="sm"
+                          style={{
+width: "180px"
+                          }}
+                            value={props.childMindMap ? props.childMindMap.name : "untitled"}
+                            onClick={handleClick}
+                        >
+                        </Form.Control>
+                        */}
+                        <Button
+                          name="mindMap"
+                          onClick={handleClick}
+                          variant={BUTTON_VARIANT}
+                        >
+                          {props.childMindMap ? props.childMindMap.name : "untitled"}
+                        </Button>
+                    </Col>
+                </Form.Group>
             </Col>
-        </Form.Group>
+        </Row>
+
     );
 };

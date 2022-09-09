@@ -1,6 +1,8 @@
 import React, { Dispatch, useState } from 'react';
 import { Modal, Form, Container, Row, Col, Button } from 'react-bootstrap';
+import { BUTTON_VARIANT } from '~src/shared/constants';
 import { EDITOR_KEYBINDINGS, EDITOR_THEMES, getPreference, PreferenceOption, PREFERENCE_COUCHURL, PREFERENCE_EDITOR_KEYBINDING, PREFERENCE_EDITOR_THEME, setPreference } from '../../../shared/preferences';
+import * as styles from "../../forms.module.css";
 
 export interface PreferenceEditorProps {
     setClose: Dispatch<boolean>;
@@ -9,8 +11,8 @@ export interface PreferenceEditorProps {
 export const PreferenceEditor = (props: PreferenceEditorProps) => {
 
     const [couchUrl, setCouchUrl] = useState(getPreference(PREFERENCE_COUCHURL));
-    const [editorTheme, setEditorTheme] = useState(getPreference(PREFERENCE_EDITOR_THEME, "chrome"));
-    const [editorKeyBinding, setEditorKeyBinding] = useState(getPreference(PREFERENCE_EDITOR_KEYBINDING, "vim"));
+    const [editorTheme, setEditorTheme] = useState(getPreference(PREFERENCE_EDITOR_THEME, "eclipse"));
+    const [editorKeyBinding, setEditorKeyBinding] = useState(getPreference(PREFERENCE_EDITOR_KEYBINDING, "ace"));
 
     const handleChangeUrl = (e: any) => {
         setCouchUrl(e.target.value);
@@ -32,14 +34,16 @@ export const PreferenceEditor = (props: PreferenceEditorProps) => {
         props.setClose(false);
     };
 
-    const handleClose = (e: any) => {
+    const handleClose = () => {
         props.setClose(false);
     };
 
     return (
-        <Modal show={true} size="lg">
+        <Modal show={true} onEscapeKeyDown={handleClose} onHide={handleClose} size="lg">
+            <Modal.Header className={styles.modalHeader} closeButton>
+                Preferences
+            </Modal.Header>
             <Modal.Body>
-                <h4>Preferences</h4>
                 <Form onSubmit={(e: any) => handleSave(e)}>
                     <Container>
                         <Row>
@@ -101,14 +105,18 @@ export const PreferenceEditor = (props: PreferenceEditorProps) => {
                             </Form.Group>
                         </Row>
                         <Row>
-                            <Col></Col>
                             <Col>
-                                <Button title="Close" onClick={handleClose}>
+                            </Col>
+                            <Col xs lg="3">
+                                <Button title="Close" variant={BUTTON_VARIANT} onClick={handleClose}>
                                     Close
                                 </Button>
-                                <Button title="Save" type="submit">
+
+                                <span style={{ marginLeft: "5px" }}></span>
+                                <Button title="Save" variant={BUTTON_VARIANT} type="submit">
                                     Submit
                                 </Button>
+
                             </Col>
                         </Row>
                     </Container>

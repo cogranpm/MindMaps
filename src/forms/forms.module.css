@@ -12,7 +12,7 @@ input[editext="input"] {
     width: 400px;
 }
 
-.trunk{
+.trunk {
     fill: #e7eaed;
     cursor: hand;
     stroke: darkgray;
@@ -53,7 +53,11 @@ input[editext="input"] {
     width: 270px;
 }
 
-
+.modalHeader {
+    font-family: 'IBM Plex Mono', san serif;
+    font-weight: bold;
+    font-size: 18pt;
+}
 
 /* forms stuff
 input, textarea {

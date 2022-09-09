@@ -15,20 +15,24 @@ export const LinkEditor = (props: LinkEditorProps) => {
     }
 
     return (
-            <Form.Group as={Row} className="mb-3" controlId="link">
-                <Form.Label column sm={2}>Link</Form.Label>
-                <Col>
-                    <Form.Control
-                        required
-                        type="url"
-                        name="link"
-                        size="sm"
-                        value={props.url}
-                        onChange={handleChange}
-                        onKeyDown={(e: any) => e.stopPropagation()}
-                    >
-                    </Form.Control>
-                </Col>
-            </Form.Group>
+        <Row>
+            <Col>
+                <Form.Group as={Row} className="mb-3" controlId="link">
+                    <Form.Label column sm={2}>Link</Form.Label>
+                    <Col>
+                        <Form.Control
+                            required
+                            type="url"
+                            name="link"
+                            size="sm"
+                            value={props.url}
+                            onChange={handleChange}
+                            onKeyDown={(e: any) => e.stopPropagation()}
+                        >
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+            </Col>
+        </Row>
     )
 }

@@ -45,6 +45,7 @@ import {
 
 import { initializeLeaf, persistLeaf } from "~src/shared/workerClient";
 import { processAudioQueueResponse } from "~src/forms/models/mindMaps/modelHelpers/audioQueueHelper";
+import * as styles from "../../forms.module.css";
 
 export interface LeafEditorProps {
     leaf: Leaf;
@@ -55,11 +56,11 @@ const getEditorHeight = (theType: LeafType): number => {
         case LeafType.Test:
             return 55;
         case LeafType.Snippet:
-            return 75;
+            return 55;
         case LeafType.Link:
             return 275;
         case LeafType.MindMap:
-            return 375;
+            return 175;
         default:
             return 575;
     }
@@ -104,10 +105,6 @@ export const LeafEditor = (props: LeafEditorProps) => {
 
     const initialize = async () => {
         initializeLeaf(props.leaf, initializeCallback);
-        /*
-        await initializeBody();
-        await initializeOtherTypes();
-        */
     };
 
     const initializeCallback = (e: Content) => {
@@ -137,84 +134,6 @@ export const LeafEditor = (props: LeafEditorProps) => {
             default:
         }
     };
-
-    /*
-    const initializeBody = async () => {
-      const existing = await loadLeafBody(props.leaf);
-      if (!existing) {
-        setBody(makeLongText(props.leaf.id, LongTextType.Body));
-      } else {
-        setBody(existing as LongText);
-      }
-    };
-
-    const initializeOtherTypes = async () => {
-      switch (type) {
-        case LeafType.Test:
-          initializeTest();
-          break;
-        case LeafType.MindMap:
-          await initializeMindMap();
-          break;
-        case LeafType.Snippet:
-          await initializeSnippet();
-          break;
-        default:
-      }
-    };
-
-    const initializeSnippet = async () => {
-      const existingSnippet = await loadSnippet(props.leaf);
-      if (!existingSnippet) {
-        setSnippet(makeLongText(props.leaf.id, LongTextType.Snippet));
-      } else {
-        setSnippet(existingSnippet as LongText);
-      }
-    };
-
-    const initializeMindMap = async () => {
-      const existingMindMap = await loadMindmapByLeaf(props.leaf);
-      if (!existingMindMap) {
-        const newMindMap = makeMindMapWithLeaf(props.leaf);
-        setChildMindMap(newMindMap);
-        setAddingChildMap(true);
-      } else {
-        setChildMindMap(existingMindMap as MindMap);
-        setAddingChildMap(false);
-      }
-    };
-    const initializeMindMap = async () => {
-      find(
-        FETCH_ID_GETMINDMAPBYLEAF,
-        {
-          selector: { leafId: props.leaf.id },
-        },
-        initializeMindMapCallback
-      );
-    };
-
-    const initializeMindMapCallback = (e: Content) => {
-      const result = e as PouchDB.Find.FindResponse<Content>;
-      if (result.docs.length === 0) {
-        const newMindMap = makeMindMapWithLeaf(props.leaf);
-        setChildMindMap(newMindMap);
-        setAddingChildMap(true);
-      } else {
-        const firstResult = result.docs[0];
-        const existing = firstResult as unknown as MindMap;
-        setChildMindMap(existing);
-        setAddingChildMap(false);
-      }
-    };
-
-    const initializeTest = async () => {
-      const existing = await get(props.leaf.id);
-      if (existing) {
-        await setTest(existing as Test);
-        await loadTestAudio(existing as Test);
-      }
-    };
-    */
 
     const handleClose = async () => {
         dispatch({
@@ -252,17 +171,6 @@ export const LeafEditor = (props: LeafEditorProps) => {
                     saveCallback
                 );
 
-                /*write to the database
-                const updatedEntity = await persist(updatedMindMap);
-                await saveOther();
-                await saveBody();
-
-                //update the global state
-                dispatch({
-                  type: ActionType.HideLeafEditor,
-                  payload: { updatedEntity: updatedEntity },
-                });
-                */
             } else {
                 logSystemError(
                     new Error(),
@@ -294,34 +202,6 @@ export const LeafEditor = (props: LeafEditorProps) => {
         }
     };
 
-    /*
-    const saveBody = async () => {
-      if (body) {
-        const updatedBody = await persistLongText(body as LongText);
-      }
-    };
-
-    const saveOther = async () => {
-      // save the externally related stuff
-      switch (type) {
-        case LeafType.Test:
-          await saveTest();
-          break;
-        case LeafType.Snippet:
-          if (snippet) {
-            const updatedBody = await persistLongText(snippet as LongText);
-          }
-          break;
-        default:
-      }
-    };
-
-    const saveTest = async () => {
-      setTest(await persistTest(test));
-      await persistTestAudio(test);
-    };
-    */
-
     const handleChangeTitle = (e: any) => {
         setTitle(e.target.value);
     };
@@ -338,12 +218,10 @@ export const LeafEditor = (props: LeafEditorProps) => {
         try {
             switch (value) {
                 case LeafType.Test:
-                    //await initializeTest();
                     await initialize();
                     break;
                 case LeafType.MindMap:
                     //this should destroy an existing mind map really
-                    //await initializeMindMap();
                     await initialize();
                     break;
                 case LeafType.Snippet:
@@ -360,7 +238,6 @@ export const LeafEditor = (props: LeafEditorProps) => {
     const externalSubmitHandler = async () => {
         if (submitRef.current) {
             // this just reloads everything
-            //await formRef.current.submit();
             submitRef.current.click();
         }
     };
@@ -385,15 +262,13 @@ export const LeafEditor = (props: LeafEditorProps) => {
     };
 
     return (
-        <Modal show={true} onEscapeKeyDown={handleClose} size="xl">
-            <Modal.Body>
-                <p style={{
-                    fontFamily: "'IBM Plex Mono', san serif",
-                    fontWeight: "bold",
-                    fontSize: "18pt"
-                }}>Editor{getLeafTypeTitle(type)}</p>
-                <hr />
+        <Modal show={true} onEscapeKeyDown={handleClose} onHide={handleClose} size="xl">
 
+            <Modal.Header className={styles.modalHeader} closeButton>
+                Editor{getLeafTypeTitle(type)}
+            </Modal.Header>
+
+            <Modal.Body>
                 <Form onSubmit={(e: any) => handleSave(e)} ref={formRef}>
                     <Container>
                         <Row>
@@ -459,36 +334,32 @@ export const LeafEditor = (props: LeafEditorProps) => {
                                 </Col>
                             </Form.Group>
                         </Row>
-                        <Row>
-                            <Col>
-                                {type == LeafType.MindMap ? (
-                                    <MindMapEditor
-                                        leaf={props.leaf}
-                                        childMindMap={childMindMap}
-                                        setChildMindMap={setChildMindMap}
-                                        addingChildMap={addingChildMap}
-                                        saveHandler={save}
-                                    />
-                                ) : (
-                                    ""
-                                )}
-                                {type == LeafType.Snippet ? (
-                                    <SnippetEditor
-                                        leaf={props.leaf}
-                                        snippet={snippet}
-                                        setSnippet={setSnippet}
-                                        submitRef={submitRef}
-                                    />
-                                ) : (
-                                    ""
-                                )}
-                                {type == LeafType.Test ? (
-                                    <TestEditor leaf={props.leaf} test={test} setTest={setTest} />
-                                ) : (
-                                    ""
-                                )}
-                            </Col>
-                        </Row>
+                        {type == LeafType.MindMap ? (
+                            <MindMapEditor
+                                leaf={props.leaf}
+                                childMindMap={childMindMap}
+                                setChildMindMap={setChildMindMap}
+                                addingChildMap={addingChildMap}
+                                saveHandler={save}
+                            />
+                        ) : (
+                            ""
+                        )}
+                        {type == LeafType.Snippet ? (
+                            <SnippetEditor
+                                leaf={props.leaf}
+                                snippet={snippet}
+                                setSnippet={setSnippet}
+                                submitRef={submitRef}
+                            />
+                        ) : (
+                            ""
+                        )}
+                        {type == LeafType.Test ? (
+                            <TestEditor leaf={props.leaf} test={test} setTest={setTest} />
+                        ) : (
+                            ""
+                        )}
                         <Row>
                             <Col>
                             </Col>
@@ -505,7 +376,6 @@ export const LeafEditor = (props: LeafEditorProps) => {
                     </Container>
                 </Form>
             </Modal.Body>
-            <Modal.Footer></Modal.Footer>
         </Modal>
     );
 };

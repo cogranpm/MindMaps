@@ -13,15 +13,20 @@ import { MindMapView } from "./forms/mindMap/mindMap";
 import { PreferenceEditor } from "./forms/mindMap/modals/preferences";
 import { logMessage, logSystemError } from "./shared/errorHandling";
 import jewels from "./public/jewels.jpg";
+import { ArrowRepeat } from 'react-bootstrap-icons';
+import { AppContext } from './forms/models/mindMaps/context';
+import { SyncDialog } from './forms/mindMap/modals/syncDialog';
 
 
-const workoutIndex = 2;
+//const workoutIndex = 2;
 const mindMapIndex = 1;
 const homeIndex = 0;
 
 export const App = () => {
     const [nav, setNav] = useState(0);
     const [showPreferences, setShowPreferences] = useState(false);
+    const [showSyncDialog, setShowSyncDialog] = useState(false);
+
 
     useEffect(() => {
 
@@ -40,14 +45,18 @@ export const App = () => {
         setShowPreferences(true);
     }
 
+    const onClickSync = () => {
+        setShowSyncDialog(true);
+    }
+
     return (
         <>
             <Navbar bg="primary" variant="dark" expand="lg">
                 <Container fluid>
                     <Navbar.Brand href="#home"
                         style={{
-                          fontFamily: "'IBM Plex Mono', san serif",
-                          fontWeight: "bold"
+                            fontFamily: "'IBM Plex Mono', san serif",
+                            fontWeight: "bold"
                         }}>Brain Dump</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -55,18 +64,21 @@ export const App = () => {
                             <Nav.Link onClick={onHome}>Home</Nav.Link>
                             <Nav.Link onClick={onList}>Mind Maps</Nav.Link>
                             <Nav.Link onClick={onPreferences}>Preferences</Nav.Link>
+                            <Nav.Item title="sync"><Button onClick={onClickSync}><ArrowRepeat aria-label="Sync" /></Button></Nav.Item>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
             <Container fluid>
                 {nav === homeIndex ? (
-                    <div style={{ display: "flex",
-                                  marginTop: "80px",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  height: "100%" }} >
-                      <div style={{alignSelf: "flex-end"}}>
+                    <div style={{
+                        display: "flex",
+                        marginTop: "80px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%"
+                    }} >
+                        <div style={{ alignSelf: "flex-end" }}>
                             <img src={jewels} />
                         </div>
                     </div>
@@ -76,6 +88,7 @@ export const App = () => {
                 {nav === mindMapIndex ? <MindMapView /> : ""}
             </Container>
             {showPreferences ? <PreferenceEditor setClose={setShowPreferences} /> : ""}
+            {showSyncDialog ? <SyncDialog setShow={setShowSyncDialog} /> : ""}
         </>
     );
 };

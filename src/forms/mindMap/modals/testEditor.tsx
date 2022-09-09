@@ -228,89 +228,91 @@ export const TestEditor = (props: TestEditorProps) => {
 
 
     return (
-<>
-      <hr/>
-        <Container>
-            <Row className="mb-3">
-                <Col>Questions</Col>
-                <Col>
-                    <button onClick={onNew} title="New"><Plus /></button>
-                    <button onClick={remove} title="Delete" disabled={current === undefined}><Trash /></button>
-                    <button
-                        onClick={() => AudioRecording.stopPlayback()}
-                        title="Cancel Playback"
-                        disabled={current === undefined}
-                    >
-                        <VolumeMute />
-                    </button>
-                </Col>
-            </Row>
-
-
-            <Row>
-                <Col>
-                    <Form.Group as={Row} className="mb-3" controlId="questionTitle">
-                        <Form.Label column sm={2}>Title</Form.Label>
-                        <Col sm={10}>
-                            <Form.Control
-                                placeholder="Enter the question title"
-                                type="text"
-                                name="questionTitle"
-                                size="sm"
-                                value={current ? current.title : ""}
-                                onChange={handleChange}
-                                autoFocus
+        <Row>
+            <Col>
+                <hr />
+                <Container>
+                    <Row className="mb-3">
+                        <Col>Questions</Col>
+                        <Col>
+                            <button onClick={onNew} title="New"><Plus /></button>
+                            <button onClick={remove} title="Delete" disabled={current === undefined}><Trash /></button>
+                            <button
+                                onClick={() => AudioRecording.stopPlayback()}
+                                title="Cancel Playback"
                                 disabled={current === undefined}
                             >
-                            </Form.Control>
+                                <VolumeMute />
+                            </button>
                         </Col>
-                    </Form.Group>
+                    </Row>
 
-                    <Form.Group as={Row} className="mb-3">
-                        <Form.Label column sm={2}>Question</Form.Label>
-                        <Col sm={10}>
-                            <AudioRecordingView
-                                recorder={questionRecorder}
-                                blob={questionBlob}
-                                disabled={current === undefined}
-                            />
+
+                    <Row>
+                        <Col>
+                            <Form.Group as={Row} className="mb-3" controlId="questionTitle">
+                                <Form.Label column sm={2}>Title</Form.Label>
+                                <Col sm={10}>
+                                    <Form.Control
+                                        placeholder="Enter the question title"
+                                        type="text"
+                                        name="questionTitle"
+                                        size="sm"
+                                        value={current ? current.title : ""}
+                                        onChange={handleChange}
+                                        autoFocus
+                                        disabled={current === undefined}
+                                    >
+                                    </Form.Control>
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}>Question</Form.Label>
+                                <Col sm={10}>
+                                    <AudioRecordingView
+                                        recorder={questionRecorder}
+                                        blob={questionBlob}
+                                        disabled={current === undefined}
+                                    />
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3" >
+                                <Form.Label column sm={2}>Answer</Form.Label>
+                                <Col sm={10}>
+                                    <AudioRecordingView
+                                        recorder={answerRecorder}
+                                        blob={answerBlob}
+                                        disabled={current === undefined}
+                                    />
+                                </Col>
+                            </Form.Group>
+
+
                         </Col>
-                    </Form.Group>
 
-                    <Form.Group as={Row} className="mb-3" >
-                        <Form.Label column sm={2}>Answer</Form.Label>
-                        <Col sm={10}>
-                            <AudioRecordingView
-                                recorder={answerRecorder}
-                                blob={answerBlob}
-                                disabled={current === undefined}
-                            />
+                        <Col>
+                            <Table striped bordered hover variant="light">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Title</th>
+                                        <th>Added</th>
+                                        <th>Q A</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {questionsDisplay}
+                                </tbody>
+                            </Table>
+
                         </Col>
-                    </Form.Group>
 
+                    </Row>
 
-                </Col>
-
-                <Col>
-                    <Table striped bordered hover variant="light">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Added</th>
-                                <th>Q A</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questionsDisplay}
-                        </tbody>
-                    </Table>
-
-                </Col>
-
-            </Row>
-
-        </Container>
-      </>
+                </Container>
+            </Col>
+        </Row>
     )
 }

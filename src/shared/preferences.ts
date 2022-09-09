@@ -9,31 +9,26 @@ export interface PreferenceOption {
     label: string;
 }
 
-/*
-import "ace-builds/src-noconflict/theme-iplastic";
-import "ace-builds/src-noconflict/theme-katzenmilch";
-import "ace-builds/src-noconflict/theme-kr_theme";
-*/
 
 export const EDITOR_THEMES: PreferenceOption[] = [
-    { code: "dracula", label: "Dracula" },
-    { code: "github", label: "GitHub" },
-    { code: "gob", label: "Gob" },
-    { code: "gruvbox", label: "GruvBox" },
-    { code: "idle_fingers", label: "Idle Fingers" },
-    { code: "chaos", label: "Chaos" },
     { code: "ambiance", label: "Ambiance" },
+    { code: "chaos", label: "Chaos" },
+    { code: "chrome", label: "Chrome" },
     { code: "clouds", label: "Clouds" },
     { code: "cobalt", label: "Cobalt" },
     { code: "crimson_editor", label: "Crimson Editor" },
     { code: "dawn", label: "Dawn" },
     { code: "dreamweaver", label: "Dreamweaver" },
+    { code: "dracula", label: "Dracula" },
+    { code: "eclipse", label: "Eclipse" },
+    { code: "github", label: "GitHub" },
+    { code: "gob", label: "Gob" },
+    { code: "gruvbox", label: "GruvBox" },
+    { code: "idle_fingers", label: "Idle Fingers" },
     { code: "iplastic", label: "IPlastic" },
     { code: "katzenmilch", label: "Katzenmilch" },
     { code: "kr_theme", label: "KR Theme" },
-    { code: "eclipse", label: "Eclipse" },
-    { code: "terminal", label: "Terminal" },
-    { code: "chrome", label: "Chrome" }
+    { code: "terminal", label: "Terminal" }
 ];
 
 export const EDITOR_KEYBINDINGS: PreferenceOption[] = [

@@ -15,7 +15,7 @@ export const MindMapForm = (props: MindMapFormProps) => {
                 <Form.Label column sm={2}>
                     Type
                 </Form.Label>
-                <Col sm={10}>
+                <Col xs sm={8}>
                     <Form.Select
                         aria-label="Type"
                         name="type"

@@ -3,7 +3,7 @@ export const SCENE_WIDTH = 1865;
 export const SCENE_HEIGHT = 2200;
 export const TRUNK_WIDTH = 90;
 export const BRANCH_HEIGHT = 35;
-export const BRANCH_VERTICAL_SPACE = 80;
+export const BRANCH_VERTICAL_SPACE = 120;
 export const RECT_CORNER_RADIUS = 15;
 export const NULL_TITLE = "untitled";
 export const TITLE_HEIGHT = 40;
@@ -42,6 +42,8 @@ export const FETCH_ID_PERSISTLEAF = "persistleaf";
 export const FETCH_ID_LOADTESTRUN = "loadtestrun";
 export const FETCH_ID_PERSISTTESTRUN = "persisttestrun";
 export const FETCH_ID_LOADANSWERS = "loadanswers";
+
+export const BUTTON_VARIANT = "secondary"
 
 
 export enum XOrientation {

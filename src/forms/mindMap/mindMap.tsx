@@ -12,7 +12,6 @@ import { Container, Row, Col, Tabs, Tab, CloseButton } from "react-bootstrap";
 import { appReducer } from "../models/mindMaps/reducer";
 import { initialAppState, MindMap, TabItem } from "../models/mindMaps/state";
 import { AppContext } from "../models/mindMaps/context";
-import { Toolbar } from "./toolbar";
 import { House } from "react-bootstrap-icons";
 import EdiText from "react-editext";
 import { ActionType } from "../models/mindMaps/actions";
@@ -66,14 +65,9 @@ export function MindMapView() {
                 className="mb-3"
                 onSelect={handleSelect}
             >
-                <Tab eventKey="home" title={<House />}>
+                <Tab eventKey="home" key={"home"} title={<House />}>
                     <div>
                         <Container fluid>
-                            <Row>
-                                <Col>
-                                    <Toolbar />
-                                </Col>
-                            </Row>
                             <Row>
                                 <Col>
                                     <List />
@@ -121,7 +115,7 @@ export function MindMapView() {
                                                         height: "40px",
                                                         width: "50px",
                                                         borderRadius: "5px",
-                                                      padding: "0"
+                                                        padding: "0"
                                                     }
                                                 }}
                                                 viewProps={{
@@ -148,7 +142,13 @@ export function MindMapView() {
                                 </Container>
                             }
                         >
-                            <Tree tabItem={tabItem}></Tree>
+                            <Container fluid>
+                                <Row>
+                                    <Col>
+                                        <Tree tabItem={tabItem}></Tree>
+                                    </Col>
+                                </Row>
+                            </Container>
                         </Tab>
                     );
                 })}

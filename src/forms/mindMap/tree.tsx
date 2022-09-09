@@ -18,6 +18,7 @@ import { ContextMenu } from "./elements/contextMenu";
 import { MindMapForm } from "./mindMapForm";
 import { persist } from "~src/shared/workerClient";
 import { Content } from "~src/shared/workerMessages";
+import {Row, Col } from "react-bootstrap";
 import * as styles from "../forms.module.css";
 
 type TreeProps = {
@@ -97,7 +98,7 @@ export const Tree = (props: TreeProps) => {
     };
 
     return (
-        <div className={styles.mindMapFormContainer}>
+      <>
             {mindMap ? (
                 <MindMapForm
                     mindMap={mindMap}
@@ -106,9 +107,12 @@ export const Tree = (props: TreeProps) => {
             ) : (
                 ""
             )}
-            <div>
+
+            <Row>
+      <Col>
                 <svg
-                    id="svg"
+                  id={mindMap ? `svg${mindMap._id}` : "svg"}
+                  key={mindMap ? `svg${mindMap._id}` : "svg"}
                     xmlns="http://www.w3.org/2000/svg"
                     fill="white"
                     width={SCENE_WIDTH + 5}
@@ -139,8 +143,9 @@ export const Tree = (props: TreeProps) => {
                 ) : (
                     ""
                 )}
-            </div>
             <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu>
-        </div>
+            </Col>
+            </Row>
+      </>
     );
 };

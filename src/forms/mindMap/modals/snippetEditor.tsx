@@ -8,6 +8,7 @@ import { Leaf, LongText } from '../../models/mindMaps/state';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Dispatch } from 'react';
 import { AceWrapper } from '../elements/ace_editor';
+import { BUTTON_VARIANT } from '~src/shared/constants';
 
 
 interface SnippetEditorProps {
@@ -61,46 +62,51 @@ export const SnippetEditor = (props: SnippetEditorProps) => {
     }
 
     return (
-      <>
-           <Form.Group controlId="snippet">
+        <>
+            <Form.Group as={Row} className="mb-3" controlId="snippet">
                 <Form.Label column sm={2}>Snippet</Form.Label>
-                <AceWrapper
-                    name="body"
-                    mode="markdown"
-                    showGutter={false}
-                    readOnly={false}
-                    defaultValue=""
-                    height={"300px"}
-                    snippet={props.snippet ? props.snippet.body : ""}
-                    onChange={handleChangeSnippet}
-                    tabIndex={0}
-                    focus={false}
-                    writeHandler={save}
-                />
+                <Col>
+                    <AceWrapper
+                        name="body"
+                        mode="markdown"
+                        showGutter={false}
+                        readOnly={false}
+                        defaultValue=""
+                        height={"280px"}
+                        snippet={props.snippet ? props.snippet.body : ""}
+                        onChange={handleChangeSnippet}
+                        tabIndex={0}
+                        focus={false}
+                        writeHandler={save}
+                    />
+                </Col>
             </Form.Group>
 
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div className="ms-auto">
-                    <Button onClick={evaluate}>Evaluate</Button>
-                </div>
-            </div>
+            <Row>
+                <Col/>
+                <Col xs lg="1" className="mb-3">
+                    <Button variant={BUTTON_VARIANT} onClick={evaluate}>Evaluate</Button>
+                </Col>
+            </Row>
 
-            <Form.Group controlId="msgs">
+            <Form.Group as={Row} className="mb-3" controlId="msgs">
                 <Form.Label column sm={2}>Output</Form.Label>
-                <AceWrapper
-                    mode="text"
-                    name="msgs"
-                    snippet={scriptMessages.join("\n")}
-                    height="150px"
-                    readOnly={true}
-                    focus={false}
-                    onChange={() => { }}
-                    tabIndex={0}
-                    writeHandler={save}
-                    defaultValue=""
-                    showGutter={false}
-                />
+                <Col>
+                    <AceWrapper
+                        mode="text"
+                        name="msgs"
+                        snippet={scriptMessages.join("\n")}
+                        height="150px"
+                        readOnly={true}
+                        focus={false}
+                        onChange={() => { }}
+                        tabIndex={0}
+                        writeHandler={save}
+                        defaultValue=""
+                        showGutter={false}
+                    />
+                </Col>
             </Form.Group>
-      </>
+        </>
     )
 }

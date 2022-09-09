@@ -29,6 +29,8 @@ import { HandThumbsDown, PlayBtnFill } from "react-bootstrap-icons";
 import { Content, InitializeLeafResponse } from "~src/shared/workerMessages";
 import { initializeLeaf } from "~src/shared/workerClient";
 import { processAudioQueueResponse } from "~src/forms/models/mindMaps/modelHelpers/audioQueueHelper";
+import { BUTTON_VARIANT } from "~src/shared/constants";
+import * as styles from "../../forms.module.css";
 
 export interface LeafViewProps {
   leaf: Leaf;
@@ -50,34 +52,6 @@ export const LeafViewer = (props: LeafViewProps) => {
     const execute = async () => {
       try {
         initializeLeaf(props.leaf, initializeCallback);
-
-        /*
-        const longBody = await loadLeafBody(props.leaf);
-        if (longBody) {
-          setBody(longBody.body);
-        }
-        if (props.leaf.type === LeafType.MindMap) {
-          const existingMindMap = await loadMindmapByLeaf(props.leaf);
-          if (existingMindMap) {
-            setMindMap(existingMindMap);
-          }
-        }
-
-        if (props.leaf.type === LeafType.Test) {
-          const existing = await getTest(props.leaf.id);
-          if (existing) {
-            await setTest(existing as Test);
-            await loadTestAudio(existing as Test);
-          }
-        }
-
-        if (props.leaf.type === LeafType.Snippet) {
-          const existing = await loadSnippet(props.leaf);
-          if (existing) {
-            await setSnippet(existing.body);
-          }
-        }
-*/
       } catch (err) {
         logSystemError(err, `Error in Leaf View init Leaf: ${props.leaf.id}`);
       }
@@ -100,7 +74,7 @@ export const LeafViewer = (props: LeafViewProps) => {
       case LeafType.MindMap:
         if (response.mindMap) {
           setMindMap(response.mindMap);
-        } 
+        }
         break;
       case LeafType.Snippet:
         if (response.snippet) {
@@ -213,8 +187,7 @@ export const LeafViewer = (props: LeafViewProps) => {
 
   return (
     <Modal show={true} onHide={handleClose} size="xl">
-      <Modal.Header closeButton>
-        <Modal.Title>
+      <Modal.Header className={styles.modalHeader} closeButton>
           {props.leaf.type === LeafType.Link ? (
             <a href={props.leaf.url} target="_blank" rel="noreferrer">
               {props.leaf.title}
@@ -222,7 +195,6 @@ export const LeafViewer = (props: LeafViewProps) => {
           ) : (
             props.leaf.title
           )}
-        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
@@ -230,7 +202,7 @@ export const LeafViewer = (props: LeafViewProps) => {
             <Row>
               <Col>
                 <OverlayTrigger placement="top" overlay={renderMindMapTip}>
-                  <Button variant="outline-primary" onClick={handleMindMap}>
+                  <Button variant={BUTTON_VARIANT} onClick={handleMindMap}>
                     {mindMap ? mindMap.name : "Not Set"}
                   </Button>
                 </OverlayTrigger>
@@ -252,27 +224,20 @@ export const LeafViewer = (props: LeafViewProps) => {
             ""
           )}
           {props.leaf.type === LeafType.Snippet ? (
-            <>
-              <Row>
-                <Col>
-                  <h2>Snippet</h2>
-                </Col>
-              </Row>
-              <Row>
+             <Row>
                 <Col>
                   <pre>
                     <code>{snippet}</code>
                   </pre>
                 </Col>
               </Row>
-            </>
           ) : (
             ""
           )}
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button title="Close" onClick={handleClose}>
+        <Button variant={BUTTON_VARIANT} title="Close" onClick={handleClose}>
           Close
         </Button>
       </Modal.Footer>
