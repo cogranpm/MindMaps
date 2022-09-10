@@ -120,7 +120,7 @@ export const Trunk = (props: TrunkProps) => {
 
             <text
               x={x + TRUNK_WIDTH / 2}
-              y={mindMap.height - 55}
+              y={(mindMap ? mindMap.height : SCENE_HEIGHT) - 55}
               className={styles.smallTitle}
               fill="#000000"
               dominantBaseline="middle"
@@ -131,7 +131,7 @@ export const Trunk = (props: TrunkProps) => {
             <foreignObject
               id="branchToolbar"
               x={x + (TRUNK_WIDTH / 2) - 16}
-              y={mindMap.height - 40}
+              y={(mindMap ? mindMap.height : SCENE_HEIGHT) - 40}
               width={TRUNK_WIDTH}
               height={200}
             >

@@ -56,7 +56,14 @@ export function appReducer(state: AppState, action: AppActions): AppState {
             const updatedTabs = state.tabs.filter((tab) => {
                 return tab.mindMap._id !== action.payload.tabItem.mindMap._id;
             });
-            return { ...state, tabs: updatedTabs };
+            const updatedState = {...state, tabs: updatedTabs};
+            if(updatedTabs.length === 0){
+                updatedState.activeTabId = "home";
+            }  else {
+                updatedState.activeTabId = updatedTabs[updatedTabs.length - 1].mindMap._id;
+            }
+            console.log(updatedState);
+            return updatedState;
         case ActionType.ShowLeafEditor:
             return { ...state, showLeafEditor: true, activeEntity: action.payload.leaf };
         case ActionType.HideLeafEditor:
