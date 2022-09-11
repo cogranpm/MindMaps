@@ -34,6 +34,7 @@ import {
     XSquare,
     HandThumbsUp,
     HandThumbsDown,
+  Play
 } from "react-bootstrap-icons";
 import { AudioRecording } from "../../../../shared/webAudio";
 import { AudioRecordingView } from "../../elements/audioView";
@@ -73,38 +74,6 @@ export const TestRunEdit = (props: TestRunEditProps) => {
     }, [currentIndex]);
 
     const init = () => {
-        /*
-        const execute = async () => {
-          await loadTestAudio(props.test);
-          const viewModel = await Promise.all(
-            props.test.questions.map(async (question) => {
-              let theAnswer = props.testRun.answers.find(
-                (answer: TestRunAnswer) => answer.questionId === question.id
-              );
-              let audioBlob: Blob | undefined = undefined;
-              if (!theAnswer) {
-                theAnswer = makeTestRunAnswer(props.testRun, question);
-              } else {
-                audioBlob = await loadTestRunAudio(theAnswer.id);
-              }
-              return {
-                audioBlob: audioBlob,
-                answer: theAnswer,
-                audioBlobDirty: false,
-                question: question,
-              } as AnswerViewModel;
-            })
-          );
-    
-          props.setAnswers(viewModel);
-          if (viewModel.length > 0) {
-            setCurrentAnswer(viewModel[0]);
-          }
-        };
-    
-        answerRecorder.mediaRecorder.onstop = stopHandler;
-        execute();
-        */
         loadAnswers(props.test, props.testRun, initCallback);
     };
 
@@ -204,104 +173,119 @@ export const TestRunEdit = (props: TestRunEditProps) => {
             </Row>
             <Row>
                 <Col>
-                    <Card>
-                        <Card.Header>
-                            {currentAnswer ? currentAnswer.question.title : ""}
-                        </Card.Header>
-                        <Card.Body>
-                            <Container>
-                                <Row>
-                                    <Col>1: Play Question</Col>
-                                    <Col>
-                                        <Button className="float-end" onClick={play}>
-                                            Play
-                                        </Button>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>2: Record your answer</Col>
-                                    <Col>
-                                        <div className="float-sm-end">
-                                            <AudioRecordingView
-                                                recorder={answerRecorder}
-                                                blob={
-                                                    currentAnswer ? currentAnswer.audioBlob : undefined
+                    <Table bordered hover variant="light" id="tblActions">
+                        <thead>
+                            <tr>
+                                <th>Question {currentIndex + 1}</th>
+                                <th>{currentAnswer ? currentAnswer.question.title : ""}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Play Question</td>
+                                <td>
+                                    <Button onClick={play}>
+                                       <Play/>
+                                    </Button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Record your answer
+                                </td>
+                                <td>
+                                    <div>
+                                        <AudioRecordingView
+                                            recorder={answerRecorder}
+                                            blob={
+                                                currentAnswer ? currentAnswer.audioBlob : undefined
+                                            }
+                                            disabled={currentAnswer === undefined}
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Listen to Solution
+                                </td>
+                                <td>
+                                    <Button onClick={playCorrectAnswer}>
+                                       <Play/>
+                                    </Button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Mark your answer
+                                </td>
+                                <td>
+                                    <ButtonGroup>
+                                        {toggles.map((radio, idx) => (
+                                            <ToggleButton
+                                                key={idx}
+                                                id={`radio-${idx}`}
+                                                type="radio"
+                                                variant={
+                                                    idx === 0 ? "outline-info" : (idx === 1 ? "outline-success" : "outline-danger")
                                                 }
-                                                disabled={currentAnswer === undefined}
-                                            />
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>3: Listen to Solution</Col>
-                                    <Col>
-                                        <Button className="float-end" onClick={playCorrectAnswer}>
-                                            Play
-                                        </Button>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>4. Mark your answer</Col>
-                                    <Col>
-                                        <ButtonGroup className="float-end">
-                                            {toggles.map((radio, idx) => (
-                                                <ToggleButton
-                                                    key={idx}
-                                                    id={`radio-${idx}`}
-                                                    type="radio"
-                                                    variant={
-                                                        idx % 2 ? "outline-success" : "outline-danger"
-                                                    }
-                                                    name="radio"
-                                                    value={radio}
-                                                    checked={
-                                                        currentAnswer
-                                                            ? currentAnswer.answer.mark === idx
-                                                            : false
-                                                    }
-                                                    onChange={() => handleAnswerMark(idx)}
-                                                >
-                                                    {radio}
-                                                </ToggleButton>
-                                            ))}
-                                        </ButtonGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>5: Next Question</Col>
-                                    <Col>
-                                        <ButtonGroup
-                                            aria-label="Navigation"
-                                            className="mb-2 float-end"
-                                        >
-                                          <Button
+                                                name="radio"
+                                                value={radio}
+                                                checked={
+                                                    currentAnswer
+                                                        ? currentAnswer.answer.mark === idx
+                                                        : false
+                                                }
+                                                onChange={() => handleAnswerMark(idx)}
+                                            >
+                                                {radio}
+                                            </ToggleButton>
+                                        ))}
+                                    </ButtonGroup>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Next Question
+                                </td>
+                                <td>
+                                    <ButtonGroup
+                                        aria-label="Navigation"
+                                        className="mb-2 float-end"
+                                    >
+                                        <Button
                                             onClick={prev}
                                             disabled={currentIndex === 0}
                                             variant="secondary">
-                                                <ArrowLeftSquare />
-                                            </Button>
-                                            <Button
-                                              onClick={next}
-                                              disabled={currentIndex >= props.answers.length - 1}
-                                              variant="secondary"
-                                            >
-                                                <ArrowRightSquare />
-                                            </Button>
-                                        </ButtonGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
+                                            <ArrowLeftSquare />
+                                        </Button>
+                                        <Button
+                                            onClick={next}
+                                            disabled={currentIndex >= props.answers.length - 1}
+                                            variant="secondary"
+                                        >
+                                            <ArrowRightSquare />
+                                        </Button>
+                                    </ButtonGroup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>
                                     <ButtonGroup
                                         aria-label="Navigation"
-                                        className="mb-4 float-end"
+                                        className="mb-8 float-end"
                                     >
                                         <Button variant="secondary" onClick={submit}>Submit</Button>
                                         <Button variant="secondary" onClick={() => props.cancel()}>Cancel</Button>
                                     </ButtonGroup>
-                                </Row>
-                            </Container>
-                        </Card.Body>
-                    </Card>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </Table>
+
                 </Col>
                 <Col>
                     <Table bordered hover variant="light" id="tblList" ref={theTable}>

@@ -26,6 +26,7 @@ import { makeTestRun } from "../../../models/mindMaps/factories";
 import { Content, LoadTestRunsResponse } from "~src/shared/workerMessages";
 import { loadTestRuns, persistTestRun } from "~src/shared/workerClient";
 import { processAudioQueueResponse } from "~src/forms/models/mindMaps/modelHelpers/audioQueueHelper";
+import { BUTTON_VARIANT } from "~src/shared/constants";
 
 export interface TestRunProps {
   leaf: Leaf;
@@ -85,42 +86,6 @@ export const TestRunEditor = (props: TestRunProps) => {
       setActiveTestRun(newTestRun);
     }
   };
-
-  /*
-  const submit = async () => {
-    if (activeTestRun) {
-      const recordedAnswers = answers.map((answer) => {
-        return answer.answer;
-      });
-      activeTestRun.answers = recordedAnswers;
-      if (test) {
-        // persist the audio captured in this test run
-        await persistTestRunAudio(answers);
-
-        // persist this test run
-        let updatedTestRuns = test.testRuns;
-        const existing = test.testRuns.find(
-          (testRun) => testRun.id === activeTestRun.id
-        );
-        if (!existing) {
-          updatedTestRuns = [...test.testRuns, activeTestRun];
-        } else {
-          updatedTestRuns = test.testRuns.map((testRun) => {
-            if (testRun.id === activeTestRun.id) {
-              return activeTestRun;
-            } else {
-              return testRun;
-            }
-          });
-        }
-        let updatedTest = { ...test, testRuns: updatedTestRuns };
-        updatedTest = await persist(updatedTest);
-        setTest(updatedTest);
-      }
-    }
-    setActiveTestRun(undefined);
-  };
-  */
 
   const submit = async () => {
     if (activeTestRun) {
@@ -207,7 +172,7 @@ export const TestRunEditor = (props: TestRunProps) => {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button title="Close" onClick={handleClose}>
+        <Button title="Close" variant={BUTTON_VARIANT} onClick={handleClose}>
           Close
         </Button>
       </Modal.Footer>

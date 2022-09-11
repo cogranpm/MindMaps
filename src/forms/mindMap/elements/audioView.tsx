@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { AudioRecording } from '../../../shared/webAudio';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { Record, Pause, PauseFill, Stop } from 'react-bootstrap-icons';
+import { Record, Pause, PlayBtn, Stop, Play } from 'react-bootstrap-icons';
+import { BUTTON_VARIANT } from '~src/shared/constants';
 
 export interface AudioRecordingViewProps {
     disabled: boolean;
@@ -33,13 +34,25 @@ export function AudioRecordingView(props: AudioRecordingViewProps) {
         e.preventDefault();
         props.recorder.stop();
     };
+
     const pause = async (e: any) => {
+      try{
         e.preventDefault();
         props.recorder.pause();
+      } catch (e){
+
+      }
+
     };
+
     const resume = async (e: any) => {
+      try{
         e.preventDefault();
         props.recorder.resume();
+      } catch(e){
+
+      }
+
     };
 
     const play = async (e: any) => {
@@ -55,24 +68,23 @@ export function AudioRecordingView(props: AudioRecordingViewProps) {
             aria-label="Recording Buttons"
             className="mb-2"
         >
-            <Button onClick={record} disabled={props.disabled}>
+            <Button title="Record" onClick={record} variant="success" disabled={props.disabled}>
                 <Record />
             </Button>
 
-            <Button onClick={pause} disabled={props.disabled}>
+            <Button title="Pause" onClick={pause} variant="info" disabled={props.disabled}>
                 <Pause />
             </Button>
 
-            <Button onClick={resume} disabled={props.disabled}>
-                <PauseFill />
+            <Button title="Resume" onClick={resume} variant="info" disabled={props.disabled}>
+                <PlayBtn />
             </Button>
 
-            <Button onClick={stop} disabled={props.disabled}>
+            <Button title="Stop" onClick={stop}  variant="danger" disabled={props.disabled}>
                 <Stop />
             </Button>
 
-         {props.blob ? <Button onClick={play}>Play</Button> : ""} 
+         {props.blob ? <Button title="Play" onClick={play} variant="primary"><Play/></Button> : ""}
         </ButtonGroup>
     );
 }
-
