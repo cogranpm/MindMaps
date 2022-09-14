@@ -57,22 +57,44 @@ export const TreeBranch = ({ children }: BranchProps) => {
 
     const mindMap = getMindMapFromCache(state) as MindMap;
 
-    useEffect(() => {
-        logMessage("branch just rendered");
-    });
+    /*
+      useEffect(() => {
+          logMessage("branch just rendered");
+      });
+    */
 
-    const makeBranchRect = (branch: Branch, index: number) => {
-        const y: number = calculateBranchY(
-            index,
+
+    const makeBranchRect = (branches: Branch[], branch: Branch, index: number) => {
+
+        /// need to pass in the previous branch, not this one
+        let previousBranch: Branch | undefined = undefined;
+        if (index > 0) {
+            previousBranch = branches[index - 1];
+        }
+        branches[index - 1];
+
+        /*
+          const y: number = calculateBranchY(
+              previousBranch,
+              branch,
+              index,
+              BRANCH_HEIGHT,
+              BRANCH_VERTICAL_SPACE
+          );
+        */
+
+        branch.y = calculateBranchY(
+            previousBranch,
             BRANCH_HEIGHT,
             BRANCH_VERTICAL_SPACE
         );
+
         const x: number =
             branch.orientation === XOrientation.Left
                 ? 0
                 : calculateBranchX(SCENE_WIDTH, TRUNK_WIDTH);
 
-        const titleTop = y;
+        const titleTop = branch.y;
         const titleWidth = 360;
         const titleLeft = x + TITLE_INDENT;
 
@@ -81,7 +103,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                 <rect
                     id={branch.id}
                     x={x}
-                    y={y}
+                    y={branch.y}
                     width={calculateBranchWidth(SCENE_WIDTH, TRUNK_WIDTH)}
                     height={BRANCH_HEIGHT}
                     rx={RECT_CORNER_RADIUS}
@@ -90,6 +112,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                     onKeyDown={(e: React.KeyboardEvent) => onBranchKeyPress(e, branch)}
                     className={styles.branch}
                     data-shape-type={ShapeType.Branch}
+                    focusable="true"
                 />
                 <text
                     y={titleTop + TITLE_TOP_PADDING + (BRANCH_HEIGHT / 2)}
@@ -113,7 +136,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                                 (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
                             : (SCENE_WIDTH - (TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT) - 10)
                     }
-                    y={y + TITLE_TOP_PADDING}
+                    y={branch.y + TITLE_TOP_PADDING}
                     width={TOOLBAR_BUTTON_WIDTH * BRANCH_TOOLBAR_BUTTON_COUNT}
                     height={BRANCH_HEIGHT}
                 >
@@ -124,7 +147,7 @@ export const TreeBranch = ({ children }: BranchProps) => {
                         size="sm"
                         variant={BUTTON_VARIANT}
                     >
-                      <Plus size={16} aria-label="Add Leaf"/>
+                        <Plus size={16} aria-label="Add Leaf" />
                     </Button>
 
                     <Button
@@ -193,20 +216,20 @@ export const TreeBranch = ({ children }: BranchProps) => {
                         </Button>
                     )}
                 </foreignObject>
-                <TreeLeaf branch={branch} branchY={y} />
+                <TreeLeaf branch={branch} branchY={branch.y} />
             </g>
         );
     };
 
 
-  const addLeaf = async (branch: Branch) => {
-    try {
-      const leaf = makeLeaf(branch, mindMap.defaultLeafType);
-      await addLeafToBranch(dispatch, mindMap, branch, leaf);
-    } catch (err) {
-      logSystemError(err, `error adding leaf to branch ${branch.id}`);
-    }
-  };
+    const addLeaf = async (branch: Branch) => {
+        try {
+            const leaf = makeLeaf(branch, mindMap.defaultLeafType);
+            await addLeafToBranch(dispatch, mindMap, branch, leaf);
+        } catch (err) {
+            logSystemError(err, `error adding leaf to branch ${branch.id}`);
+        }
+    };
 
     const onBranchKeyPress = async (e: React.KeyboardEvent, branch: Branch) => {
         if (e.key === DELETE_KEY) {
@@ -234,28 +257,29 @@ export const TreeBranch = ({ children }: BranchProps) => {
         }
     };
 
-    const branches =
-        mindMap !== undefined
-            ? mindMap.branches
-                .filter((branch: Branch) => branch.orientation === XOrientation.Left)
-                .map((branch: Branch, index: number) => {
-                    return makeBranchRect(branch, index);
-                })
-            : "";
+    const leftBranches = (mindMap !== undefined)
+        ? mindMap.branches
+            .filter((branch: Branch) => branch.orientation === XOrientation.Left)
+        : [];
 
-    const rightBranches =
-        mindMap !== undefined
-            ? mindMap.branches
-                .filter((branch: Branch) => branch.orientation === XOrientation.Right)
-                .map((branch: Branch, index: number) => {
-                    return makeBranchRect(branch, index);
-                })
-            : "";
+    const rightBranches = (mindMap !== undefined)
+        ? mindMap.branches
+            .filter((branch: Branch) => branch.orientation === XOrientation.Right)
+        : [];
+
+    const leftUI = leftBranches.map((branch: Branch, index: number) => {
+        return makeBranchRect(leftBranches, branch, index);
+    });
+
+    const rightUI = rightBranches.map((branch: Branch, index: number) => {
+        return makeBranchRect(rightBranches, branch, index);
+    });
+
 
     return (
         <g>
-            {branches}
-            {rightBranches}
+            {leftUI}
+            {rightUI}
         </g>
     );
 };

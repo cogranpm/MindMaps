@@ -43,7 +43,8 @@ export const Trunk = (props: TrunkProps) => {
                 y={0}
                 width={TRUNK_WIDTH}
                 height={mindMap ? mindMap.height : SCENE_HEIGHT}
-                tabIndex={0}
+                tabIndex={-1}
+                focusable="true"
                 filter={DROP_SHADOW_FILTER}
                 rx={RECT_CORNER_RADIUS}
                 className={styles.trunk}
@@ -119,31 +120,31 @@ export const Trunk = (props: TrunkProps) => {
             </foreignObject>
 
             <text
-              x={x + TRUNK_WIDTH / 2}
-              y={(mindMap ? mindMap.height : SCENE_HEIGHT) - 55}
-              className={styles.smallTitle}
-              fill="#000000"
-              dominantBaseline="middle"
-              textAnchor="middle"
+                x={x + TRUNK_WIDTH / 2}
+                y={(mindMap ? mindMap.height : SCENE_HEIGHT) - 55}
+                className={styles.smallTitle}
+                fill="#000000"
+                dominantBaseline="middle"
+                textAnchor="middle"
             >
-              Grow
+                Grow
             </text>
             <foreignObject
-              id="branchToolbar"
-              x={x + (TRUNK_WIDTH / 2) - 16}
-              y={(mindMap ? mindMap.height : SCENE_HEIGHT) - 40}
-              width={TRUNK_WIDTH}
-              height={200}
+                id="branchToolbar"
+                x={x + (TRUNK_WIDTH / 2) - 16}
+                y={(mindMap ? mindMap.height : SCENE_HEIGHT) - 40}
+                width={TRUNK_WIDTH}
+                height={200}
             >
-              <Button
-                title="Add Branch"
-                onClick={onGrow}
-                tabIndex={-1}
-                size="sm"
-                variant="secondary"
-              >
-                <ArrowBarDown size={16} arial-label="Grow" />
-              </Button>
+                <Button
+                    title="Add Branch"
+                    onClick={onGrow}
+                    tabIndex={-1}
+                    size="sm"
+                    variant="secondary"
+                >
+                    <ArrowBarDown size={16} arial-label="Grow" />
+                </Button>
             </foreignObject>
 
 

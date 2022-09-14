@@ -60,6 +60,7 @@ export interface Branch {
     index: number;
     leaves: Leaf[];
     mindMapId: string; // we have this for the relational style back end
+    y: number;
 }
 
 export interface MindMap {

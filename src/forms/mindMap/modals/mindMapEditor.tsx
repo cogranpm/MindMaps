@@ -20,6 +20,7 @@ interface LinkEditorProps {
 }
 
 export const MindMapEditor = (props: LinkEditorProps) => {
+
     const { state, dispatch } = useContext(AppContext);
 
     const handleClick = async (e: any) => {
@@ -27,20 +28,15 @@ export const MindMapEditor = (props: LinkEditorProps) => {
         if (props.childMindMap) {
             let mindMapToOpen = props.childMindMap as MindMap;
             if (props.addingChildMap) {
-                /*
-                mindMapToOpen = await create(props.childMindMap);
-                dispatch({
-                  type: ActionType.Add,
-                  payload: { newMindMap: mindMapToOpen as MindMap },
-                });
-                */
                 persist(FETCH_ID_PUTMINDMAP, props.childMindMap, createMindMapCallback);
+                return;
+            } else {
+                props.saveHandler();
+                dispatch({
+                    type: ActionType.OpenTab,
+                    payload: { entity: mindMapToOpen },
+                });
             }
-            props.saveHandler();
-            dispatch({
-                type: ActionType.OpenTab,
-                payload: { entity: mindMapToOpen },
-            });
         }
     };
 
@@ -61,29 +57,21 @@ export const MindMapEditor = (props: LinkEditorProps) => {
                     <Form.Label column sm={2}>
                         Mind Map
                     </Form.Label>
-                    <Col xs className="mb-1" >
-                      {/*
-                        <Form.Control
-                            required
-                            type="button"
-                            name="mindMap"
-                            size="sm"
-                          style={{
-width: "180px"
-                          }}
-                            value={props.childMindMap ? props.childMindMap.name : "untitled"}
-                            onClick={handleClick}
-                        >
-                        </Form.Control>
-                        */}
-                        <Button
-                          name="mindMap"
-                          onClick={handleClick}
-                          variant={BUTTON_VARIANT}
-                        >
-                          {props.childMindMap ? props.childMindMap.name : "untitled"}
-                        </Button>
-                    </Col>
+                    {!props.childMindMap ?
+                        <Col><p>Submit and re-open Editor to create Map</p></Col>
+                        :
+                        <Col xs className="mb-1" >
+                            <Button
+                                name="mindMap"
+                                onClick={handleClick}
+                                variant={BUTTON_VARIANT}
+                                disabled={props.childMindMap === undefined}
+                            >
+                                {props.childMindMap ? props.childMindMap.name : "create"}
+                            </Button>
+                        </Col>
+
+                    }
                 </Form.Group>
             </Col>
         </Row>

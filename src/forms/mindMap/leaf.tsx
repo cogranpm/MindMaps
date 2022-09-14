@@ -14,13 +14,16 @@ import {
     TITLE_INDENT,
     XOrientation,
     TITLE_TOP_PADDING,
-    DROP_SHADOW_FILTER
+    DROP_SHADOW_FILTER,
+    LEAF_LIMIT,
+    LEAF_HEIGHT,
+    LEAF_STEM_HEIGHT
 } from "../../shared/constants";
 import { Branch, Leaf, LeafType, MindMap } from "../models/mindMaps/state";
 import { calculateBranchX } from "../models/mindMaps/ui_calculations";
 import { ActionType } from "../models/mindMaps/actions";
 import { PushButton } from "./elements/push_button";
-import { Eye, PencilSquare, Link, ClipboardCheck } from "react-bootstrap-icons";
+import { Eye, PencilSquare, Link, ClipboardCheck, FolderSymlink } from "react-bootstrap-icons";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { logMessage } from "../../shared/errorHandling";
 //import { loadMindmapByLeaf } from "../models/mindMaps/repository";
@@ -35,14 +38,16 @@ type LeafProps = {
 };
 
 const LEAF_WIDTH = 160;
-const LEAF_HEIGHT = 30;
 const LEAF_SPACER = 20;
 const BUTTON_INSET = 15;
 
 export const TreeLeaf = (props: LeafProps) => {
-    useEffect(() => {
-        logMessage("Leaf just rendered.");
-    });
+
+    /*
+      useEffect(() => {
+          logMessage("Leaf just rendered.");
+      });
+    */
 
     const { state, dispatch } = useContext(AppContext);
     const mindMap = getMindMapFromCache(state) as MindMap;
@@ -104,32 +109,52 @@ export const TreeLeaf = (props: LeafProps) => {
             ? 0
             : calculateBranchX(SCENE_WIDTH, TRUNK_WIDTH);
 
-
-
-    const lineHeight = 20;
-    const lineTop = props.branchY + BRANCH_HEIGHT;
-    const y = lineTop + lineHeight;
+    const y = (props.branchY + BRANCH_HEIGHT);///  + LEAF_STEM_HEIGHT;
 
     const leaves = props.branch.leaves.map((leaf: Leaf, index: number) => {
 
-        const x = startingX + index * (LEAF_WIDTH + LEAF_SPACER);
+        let currentRow = 1;
+        if (index > 0) {
+            let calcIndex = index + 1;
+            currentRow = Math.ceil(calcIndex / (5));
+            if (currentRow === 0) {
+                currentRow = 1;
+            }
+        }
+
+        let newIndex = index;
+        let lineTop = props.branchY + BRANCH_HEIGHT;
+
+        let currentLevelY = y + LEAF_STEM_HEIGHT;
+
+        if (currentRow !== 1) {
+            const totalHeight = LEAF_HEIGHT + LEAF_STEM_HEIGHT;
+            const rowHeight = (currentRow - 1) * totalHeight;
+            currentLevelY = currentLevelY + rowHeight;
+
+            // go back to beginning of branch for new row
+            newIndex = index - ((currentRow - 1) * LEAF_LIMIT);
+            lineTop = currentLevelY - LEAF_STEM_HEIGHT;
+        }
+        const x = startingX + newIndex * (LEAF_WIDTH + LEAF_SPACER);
         //place leaf line to the left a little
         const lineX = x + (LEAF_WIDTH / 6);
         const otherLineX = (x + LEAF_WIDTH) - (LEAF_WIDTH / 6);
-        const titleTop = y;
+        const titleTop = currentLevelY + 20;
         const titleLeft = x + TITLE_INDENT;
         const titleWidth = LEAF_WIDTH;
+        const buttonBarY = currentLevelY + LEAF_HEIGHT - 40;
 
         return (
             <g key={leaf.id}>
-                <line x1={lineX} y1={lineTop} x2={lineX} y2={lineTop + lineHeight} stroke={"black"} strokeWidth="1" />
-                <line x1={otherLineX} y1={lineTop} x2={otherLineX} y2={lineTop + lineHeight} stroke={"black"} strokeWidth="1" />
+                <line x1={lineX} y1={lineTop} x2={lineX} y2={lineTop + LEAF_STEM_HEIGHT} stroke={"black"} strokeWidth="1" />
+                <line x1={otherLineX} y1={lineTop} x2={otherLineX} y2={lineTop + LEAF_STEM_HEIGHT} stroke={"black"} strokeWidth="1" />
                 <rect
                     id={leaf.id}
                     x={x}
-                    y={y}
+                    y={currentLevelY}
                     rx={RECT_CORNER_RADIUS}
-                    height={LEAF_HEIGHT + 40}
+                    height={LEAF_HEIGHT}
                     width={LEAF_WIDTH}
                     tabIndex={0}
                     filter={DROP_SHADOW_FILTER}
@@ -140,7 +165,7 @@ export const TreeLeaf = (props: LeafProps) => {
                     data-branch-id={props.branch.id}
                 />
                 <text
-                    y={titleTop + TITLE_TOP_PADDING + (LEAF_HEIGHT / 2)}
+                    y={titleTop}
                     x={titleLeft}
                     width={titleWidth}
                     height={TITLE_HEIGHT}
@@ -157,14 +182,14 @@ export const TreeLeaf = (props: LeafProps) => {
                 </text>
                 <PushButton
                     x={x + BUTTON_INSET}
-                    y={y + LEAF_HEIGHT}
+                    y={buttonBarY}
                     onClick={() => handleViewClick(leaf)}
                 >
                     <Eye />
                 </PushButton>
                 <PushButton
                     x={x + 32 + BUTTON_INSET}
-                    y={y + LEAF_HEIGHT}
+                    y={buttonBarY}
                     onClick={() => handleEditClick(leaf)}
                 >
                     <PencilSquare />
@@ -172,7 +197,7 @@ export const TreeLeaf = (props: LeafProps) => {
                 {leaf.type === LeafType.Link ? (
                     <PushButton
                         x={x + 32 + 32 + BUTTON_INSET}
-                        y={y + LEAF_HEIGHT}
+                        y={buttonBarY}
                         onClick={() => handleLink(leaf)}
                     >
                         <Link />
@@ -183,10 +208,10 @@ export const TreeLeaf = (props: LeafProps) => {
                 {leaf.type === LeafType.MindMap ? (
                     <PushButton
                         x={x + 32 + 32 + BUTTON_INSET}
-                        y={y + LEAF_HEIGHT}
+                        y={buttonBarY}
                         onClick={() => handleMindMap(leaf)}
                     >
-                        <Link />
+                        <FolderSymlink />
                     </PushButton>
                 ) : (
                     ""
@@ -198,7 +223,7 @@ export const TreeLeaf = (props: LeafProps) => {
                     >
                         <PushButton
                             x={x + 32 + 32 + BUTTON_INSET}
-                            y={y + LEAF_HEIGHT}
+                            y={buttonBarY}
                             onClick={() => handleTest(leaf)}
                         >
                             <ClipboardCheck />

@@ -18,7 +18,7 @@ import { ContextMenu } from "./elements/contextMenu";
 import { MindMapForm } from "./mindMapForm";
 import { persist } from "~src/shared/workerClient";
 import { Content } from "~src/shared/workerMessages";
-import {Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import * as styles from "../forms.module.css";
 
 type TreeProps = {
@@ -27,9 +27,12 @@ type TreeProps = {
 };
 
 export const Tree = (props: TreeProps) => {
-    useEffect(() => {
-        logMessage("Tree just rendered.");
-    });
+
+    /*
+      useEffect(() => {
+          logMessage("Tree just rendered.");
+      });
+    */
 
 
     const { state, dispatch } = useContext(AppContext);
@@ -98,7 +101,7 @@ export const Tree = (props: TreeProps) => {
     };
 
     return (
-      <>
+        <>
             {mindMap ? (
                 <MindMapForm
                     mindMap={mindMap}
@@ -109,40 +112,39 @@ export const Tree = (props: TreeProps) => {
             )}
 
             <Row>
-      <Col>
-                <svg
-                  id={mindMap ? `svg${mindMap._id}` : "svg"}
-                  key={mindMap ? `svg${mindMap._id}` : "svg"}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    width={SCENE_WIDTH + 5}
-                    height={mindMap !== undefined ? mindMap.height : 0}
-                    version="1.1"
-                    onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}
-                >
-                    <Trunk saveHandler={save} />
-                    <BackgroundPane orientation={XOrientation.Left} />
-                    <BackgroundPane orientation={XOrientation.Right} />
-                    <TreeBranch />
-                </svg>
-                {state.showTitleEditor ? (
-                    <TitleEditor
-                        handleClose={handleClose}
-                        title={state.activeEntity ? state.activeEntity.title : ""}
-                        handleSave={handleSave}
-                    />
-                ) : state.showLeafEditor ? (
-                    <LeafEditor leaf={state.activeEntity as Leaf} />
-                ) : state.showLeafViewer ? (
-                    <LeafViewer leaf={state.activeEntity as Leaf} />
-                ) : state.showTestRunEditor ? (
-                    <TestRunEditor leaf={state.activeEntity as Leaf} />
-                ) : (
-                    ""
-                )}
-            <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu>
-            </Col>
+                <Col>
+                    <svg
+                        id={mindMap ? `svg${mindMap._id}` : "svg"}
+                        key={mindMap ? `svg${mindMap._id}` : "svg"}
+                        fill="white"
+                        width={SCENE_WIDTH + 5}
+                        height={mindMap !== undefined ? mindMap.height : 0}
+                        version="1.1"
+                        onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}
+                    >
+                        <Trunk saveHandler={save} />
+                        <BackgroundPane orientation={XOrientation.Left} />
+                        <BackgroundPane orientation={XOrientation.Right} />
+                        <TreeBranch />
+                    </svg>
+                    {state.showTitleEditor ? (
+                        <TitleEditor
+                            handleClose={handleClose}
+                            title={state.activeEntity ? state.activeEntity.title : ""}
+                            handleSave={handleSave}
+                        />
+                    ) : state.showLeafEditor ? (
+                        <LeafEditor leaf={state.activeEntity as Leaf} />
+                    ) : state.showLeafViewer ? (
+                        <LeafViewer leaf={state.activeEntity as Leaf} />
+                    ) : state.showTestRunEditor ? (
+                        <TestRunEditor leaf={state.activeEntity as Leaf} />
+                    ) : (
+                        ""
+                    )}
+                    <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu>
+                </Col>
             </Row>
-      </>
+        </>
     );
 };

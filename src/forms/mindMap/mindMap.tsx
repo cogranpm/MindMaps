@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { List } from "./list";
 import { Tree } from "./tree";
 import { Container, Row, Col, Tabs, Tab, CloseButton } from "react-bootstrap";
@@ -23,10 +23,25 @@ import { FETCH_ID_PUTMINDMAP } from "~src/shared/constants";
 
 export function MindMapView() {
     const [state, dispatch] = useReducer(appReducer, initialAppState);
+    const [tabClosed, setTabClosed] = useState(false);
+
+    /*
+      useEffect(() => {
+          logMessage("map just rendered");
+      });
+    */
 
     useEffect(() => {
-        logMessage("map just rendered");
-    });
+        if (tabClosed) {
+            if (state.tabs.length === 0) {
+                dispatch({ type: ActionType.SwitchTab, payload: { tabId: "home" } });
+            } else {
+                const lastTab = state.tabs[state.tabs.length - 1].mindMap._id
+                dispatch({ type: ActionType.SwitchTab, payload: { tabId: lastTab } });
+            }
+            setTabClosed(false);
+        }
+    }, [tabClosed]);
 
     const handleSave = async (e: string) => {
         try {
@@ -56,6 +71,7 @@ export function MindMapView() {
 
     const handleCloseTab = async (tabItem: TabItem) => {
         dispatch({ type: ActionType.CloseTab, payload: { tabItem: tabItem } });
+        setTabClosed(true)
     };
 
     return (

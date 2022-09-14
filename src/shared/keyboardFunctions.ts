@@ -59,7 +59,9 @@ function focusBranch(branch: Branch | undefined) {
     if (branch !== undefined) {
         const element = document.getElementById(branch.id);
         if (element !== null) {
-            element.focus();
+            //console.log(`Trying to focus: ${branch.id}`);
+            //console.log(`Inner HTML: ${element.outerHTML}`);
+            element.focus({preventScroll: false});
         }
     }
 }

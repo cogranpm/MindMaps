@@ -37,7 +37,8 @@ export function makeBranch(mindMap: MindMap, orientation: XOrientation): Branch 
         orientation: orientation,
         index: mindMap.branches.length,
         leaves: [],
-        mindMapId: mindMap._id
+        mindMapId: mindMap._id,
+        y: 0
     };
 }
 

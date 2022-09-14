@@ -1,6 +1,6 @@
 import { ActionType, AppActions } from "./actions";
 import { updateBranch, updateLeaf, getMindMapFromCache } from "./factories";
-import { AppState, MindMap, TabItem, MindMapViewModel } from "./state";
+import { AppState, MindMap, TabItem, MindMapViewModel, initialAppState } from "./state";
 
 
 //when actions are dispatched they come here
@@ -57,13 +57,16 @@ export function appReducer(state: AppState, action: AppActions): AppState {
                 return tab.mindMap._id !== action.payload.tabItem.mindMap._id;
             });
             const updatedState = {...state, tabs: updatedTabs};
+            return updatedState;
+            /*
+              no idea why this doesn't work, it's crazy
             if(updatedTabs.length === 0){
-                updatedState.activeTabId = "home";
+                return {...updatedState, activeTabId: "home"};
             }  else {
                 updatedState.activeTabId = updatedTabs[updatedTabs.length - 1].mindMap._id;
+                return updatedState;
             }
-            console.log(updatedState);
-            return updatedState;
+            */
         case ActionType.ShowLeafEditor:
             return { ...state, showLeafEditor: true, activeEntity: action.payload.leaf };
         case ActionType.HideLeafEditor:

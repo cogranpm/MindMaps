@@ -2,7 +2,7 @@ import { get, put } from "~src/shared/databaseAdapter";
 import { dbBlob } from "~src/shared/localData";
 import { LoadAnswersMessage, LoadTestRunsMessage, LoadTestRunsResponse, LocalDatabase, PersistTestRunMessage } from "~src/shared/workerMessages";
 import { makeTestRunAnswer } from "../factories";
-import { AnswerViewModel, LongTextType, Test, TestRunAnswer } from "../state";
+import { AnswerViewModel, LongTextType, Question, Test, TestRunAnswer } from "../state";
 import { loadTestAudio, loadTestRunAudio, persistTestRunAudio } from "./blobHelpers";
 import { processLongText } from "./longTextHelper";
 

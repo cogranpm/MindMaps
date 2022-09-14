@@ -2,7 +2,7 @@
  * this module has state: dispatch
  * should turn it into a class or object
  * so the dispatch can be set once
- * why does it have state, because React dispatch is something 
+ * why does it have state, because React dispatch is something
  * that can only be retrieved in a react component
  * and this is a helper module
  */
@@ -228,13 +228,13 @@ export const addLeafToBranch = async (
     dispatch = theDispatch;
     const updatedBranches = mindMap.branches.map((branch: Branch) => {
         if (branch.id === selectedBranch.id) {
-            if (selectedBranch.leaves.length < LEAF_LIMIT) {
+       //     if (selectedBranch.leaves.length < LEAF_LIMIT) {
                 const leaves = [...branch.leaves, leaf];
                 const updatedBranch = { ...branch, leaves: leaves };
                 return updatedBranch;
-            } else {
-                return branch;
-            }
+        //    } else {
+        //        return branch;
+        //    }
         } else {
             return branch;
         }
@@ -308,6 +308,3 @@ const reshuffleIndexes = (map: MindMap, alteredBranch: Branch) => {
         }
     );
 };
-
-
-

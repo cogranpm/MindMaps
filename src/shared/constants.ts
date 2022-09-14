@@ -3,7 +3,7 @@ export const SCENE_WIDTH = 1865;
 export const SCENE_HEIGHT = 2200;
 export const TRUNK_WIDTH = 90;
 export const BRANCH_HEIGHT = 35;
-export const BRANCH_VERTICAL_SPACE = 120;
+export const BRANCH_VERTICAL_SPACE = 20;
 export const RECT_CORNER_RADIUS = 15;
 export const NULL_TITLE = "untitled";
 export const TITLE_HEIGHT = 40;
@@ -17,6 +17,8 @@ export const MIME_TYPE_AUDIO = "audio/ogg";
 export const ANSWER_ATTACHMENT_KEY = 'answer';
 export const QUESTION_ATTACHMENT_KEY = 'question';
 export const LEAF_LIMIT = 5;
+export const LEAF_HEIGHT = 70;
+export const LEAF_STEM_HEIGHT = 20;
 export const BRANCH_TOOLBAR_BUTTON_COUNT = 6;
 export const TOOLBAR_BUTTON_WIDTH = 35;
 
