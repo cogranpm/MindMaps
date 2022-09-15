@@ -282,6 +282,7 @@ export const LeafEditor = (props: LeafEditorProps) => {
                                             inline
                                             type="radio"
                                             id={"" + option.code}
+                                            key={"" + option.code}
                                             name="type"
                                             value={option.code as number}
                                             onChange={handleChangeRadio}

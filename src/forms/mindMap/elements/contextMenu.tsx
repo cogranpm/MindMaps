@@ -1,7 +1,15 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { AppActions } from "../../models/mindMaps/actions";
-import { isContextMenuItem, isDeleteShape, isPasteShape, isPutClipboardShape, onCopy, onCut, onDelete, onPaste } from "../../models/mindMaps/menuHandlers";
+import {
+  isContextMenuItem,
+  isDeleteShape,
+  isPasteShape,
+  isPutClipboardShape,
+  onCopy,
+  onCut,
+  onDelete,
+  onPaste } from "../../models/mindMaps/menuHandlers";
 import { MindMap } from "../../models/mindMaps/state";
 
 const useContextMenu = () => {

@@ -61,7 +61,7 @@ function focusBranch(branch: Branch | undefined) {
         if (element !== null) {
             //console.log(`Trying to focus: ${branch.id}`);
             //console.log(`Inner HTML: ${element.outerHTML}`);
-            element.focus({preventScroll: false});
+            element.focus({ preventScroll: false });
         }
     }
 }
@@ -161,6 +161,7 @@ function moveLeafElement(element: Element, direction: Direction, map: MindMap) {
 }
 
 function moveLeft(element: Element, type: ShapeType, map: MindMap) {
+
     switch (type) {
         case ShapeType.Trunk: {
             moveTrunk(XOrientation.Left, map);
@@ -276,10 +277,11 @@ function moveDown(element: Element, type: ShapeType, map: MindMap) {
 
 export const onKeyPress = (
     event: React.KeyboardEvent,
-    map: MindMap,
+    map: MindMap | undefined,
     addBranch: (map: MindMap, orientation: XOrientation) => void) => {
+
     const activeElement = document.activeElement;
-    if (activeElement != null) {
+    if (activeElement != null && map) {
         const shapeTypeAttribute = activeElement.getAttribute("data-shape-type");
         const shapeType = (shapeTypeAttribute != null) ? parseInt(shapeTypeAttribute, 10) : ShapeType.Unknown;
         switch (event.key) {
@@ -292,10 +294,14 @@ export const onKeyPress = (
     }
     switch (event.key) {
         case "a":
-            addBranch(map, XOrientation.Left);
+            if (map) {
+                addBranch(map, XOrientation.Left);
+            }
             break;
         case "o":
-            addBranch(map, XOrientation.Right);
+            if (map) {
+                addBranch(map, XOrientation.Right);
+            }
             break;
         default: break;
     }

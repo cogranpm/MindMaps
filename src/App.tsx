@@ -57,12 +57,14 @@ export const App = () => {
                         style={{
                             fontFamily: "'IBM Plex Mono', san serif",
                             fontWeight: "bold"
-                        }}>Brain Dump</Navbar.Brand>
+                        }}>
+                        TREE-DOM
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link onClick={onHome}>Home</Nav.Link>
-                            <Nav.Link onClick={onList}>Mind Maps</Nav.Link>
+                            <Nav.Link onClick={onList}>Grove</Nav.Link>
                             <Nav.Link onClick={onPreferences}>Preferences</Nav.Link>
                             <Nav.Item title="sync"><Button onClick={onClickSync}><ArrowRepeat aria-label="Sync" /></Button></Nav.Item>
                         </Nav>
