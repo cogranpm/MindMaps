@@ -20,10 +20,11 @@ import { getMindMapFromCache } from "../models/mindMaps/factories";
 import { logMessage, logSystemError } from "../../shared/errorHandling";
 import { Content } from "~src/shared/workerMessages";
 import { persist } from "~src/shared/workerClient";
-import { FETCH_ID_PUTMINDMAP, XOrientation } from "~src/shared/constants";
+import { FETCH_ID_PUTMINDMAP, ShapeType, XOrientation } from "~src/shared/constants";
 import { onKeyPress } from "../../shared/keyboardFunctions";
 import { addBranch } from "../models/mindMaps/modelHandlers";
 import { ContextMenu } from "./elements/contextMenu";
+import { TitleEditor } from "./elements/titleEditor";
 
 export function MindMapView() {
     const [state, dispatch] = useReducer(appReducer, initialAppState);
@@ -90,10 +91,10 @@ export function MindMapView() {
         <AppContext.Provider value={{ state, dispatch }}>
 
             <Tabs
-              id="groveTabs"
+                id="groveTabs"
                 activeKey={state.activeTabId}
-              className="mb-3"
-              onSelect={handleSelect}
+                className="mb-2"
+                onSelect={handleSelect}
             >
                 <Tab eventKey="home" key={"home"} title={<House />}>
                     <div>
@@ -112,70 +113,23 @@ export function MindMapView() {
                             key={tabItem.mindMap._id}
                             eventKey={tabItem.mindMap._id}
                             title={
-                                <Container>
-                                    <Row>
-                                        <Col>
-                                            <EdiText
-                                                type="text"
-                                                value={tabItem.mindMap.name}
-                                                onSave={handleSave}
-                                                tabIndex={0}
-                                                editing={false}
-                                                editOnViewClick={false}
-                                                submitOnEnter={true}
-                                                submitOnUnfocus={true}
-                                                cancelOnEscape={true}
-                                                startEditingOnEnter={true}
-                                                showButtonsOnHover={true}
-                                                buttonsAlign="after"
-                                                containerProps={{
-                                                    style: {
-                                                    }
-                                                }}
-                                                inputProps={{
-                                                    style: {
-                                                        width: "260px",
-                                                        fontFamily: "'Roboto', san serif",
-                                                        fontSize: "9pt"
-                                                    },
-
-                                                }}
-                                                editButtonProps={{
-                                                    style: {
-                                                        height: "40px",
-                                                        width: "50px",
-                                                        borderRadius: "5px",
-                                                        padding: "0"
-                                                    }
-                                                }}
-                                                viewProps={{
-                                                    style: {
-                                                        margin: "0",
-                                                        padding: "0",
-                                                        fontFamily: "'Roboto', san serif",
-                                                        fontSize: "9pt",
-                                                        color: "#000000",
-                                                        minWidth: "130px",
-                                                        maxWidth: "200px",
-                                                        width: "auto"
-                                                    },
-                                                }}
-                                            />
-                                        </Col>
-                                        <Col>
-                                            <CloseButton
-                                                aria-label="Close Tab"
-                                                onClick={() => handleCloseTab(tabItem)}
-                                            />
-                                        </Col>
-                                    </Row>
-                                </Container>
+                                <div style={{ display: "grid", gridTemplateColumns: "max-content auto", gridTemplateRows: "auto", height: "35px" }}>
+                                    <div>
+                                        <TitleEditor title={tabItem.mindMap.name} handleSave={handleSave} shapeType={ShapeType.TrunkTitle} />
+                                    </div>
+                                    <div>
+                                        <CloseButton
+                                            aria-label="Close Tab"
+                                            onClick={() => handleCloseTab(tabItem)}
+                                        />
+                                    </div>
+                                </div>
                             }
                         >
                             <Container fluid>
                                 <Row>
                                     <Col onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}>
-                                        <TreeDom tabItem={tabItem} />
+                                        <TreeDom tabItem={tabItem} handleTitleSave={handleSave} />
                                         {mindMap ? <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu> : ""}
 
                                     </Col>
@@ -187,7 +141,7 @@ export function MindMapView() {
             </Tabs>
 
 
-          {/*
+            {/*
             <Nav
               variant="tabs"
               id="groveTabs"

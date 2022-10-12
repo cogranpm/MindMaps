@@ -50,25 +50,26 @@ export const DROP_SHADOW_FILTER = "drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4))";
 
 
 export enum XOrientation {
-  Left,
-  Right
+    Left,
+    Right
 };
 export enum Direction {
-  Up,
-  Down,
-  Left,
-  Right
+    Up,
+    Down,
+    Left,
+    Right
 }
 
 export enum ShapeType {
-  Trunk,
-  RightPanel,
-  LeftPanel,
-  Branch,
-  BranchTitle,
-  Leaf,
-  LeafTitle,
-  LeafExpandButton,
-  LeafEditButton,
-  Unknown
+    Trunk,
+    RightPanel,
+    LeftPanel,
+    Branch,
+    BranchTitle,
+    Leaf,
+    LeafTitle,
+    LeafExpandButton,
+    LeafEditButton,
+    Unknown,
+    TrunkTitle
 };

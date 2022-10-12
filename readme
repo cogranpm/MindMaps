@@ -23,3 +23,10 @@ is linked to github project:
 https://github.com/cogranpm/MindMaps
 
 a push to the remote will update the cloudflare site
+
+to overwrite what is on the remote:
+git push -f origin main 
+
+pass phrase should be red dog
+
+don't worry about the overwrite the source of truth is subversion on the local network
