@@ -52,7 +52,7 @@ export const App = () => {
 
 	return (
 		<>
-			<Navbar bg="primary" variant="dark" expand="lg">
+			<Navbar bg="success" variant="dark" expand="lg">
 				<Container fluid>
 					<Navbar.Brand href="#home"
 						style={{
@@ -67,7 +67,7 @@ export const App = () => {
 							<Nav.Link onClick={onHome}>Home</Nav.Link>
 							<Nav.Link onClick={onList}>Enter</Nav.Link>
 							<Nav.Link onClick={onPreferences}>Preferences</Nav.Link>
-							<Nav.Item title="sync"><Button onClick={onClickSync}><ArrowRepeat aria-label="Sync" /></Button></Nav.Item>
+							<Nav.Item title="sync"><Button variant="success" onClick={onClickSync}><ArrowRepeat aria-label="Sync" /></Button></Nav.Item>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>

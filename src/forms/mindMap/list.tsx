@@ -118,7 +118,6 @@ export function List() {
 
     return (
         <Table striped bordered hover size="sm">
-            <caption>Brain Dumps</caption>
             <colgroup>
                 <col style={{ width: "5%" }} />
                 <col style={{ width: "90%" }} />
