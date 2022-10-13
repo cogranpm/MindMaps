@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./App.css";
 import {
 	Container,
 	Row,
@@ -51,7 +52,7 @@ export const App = () => {
 	}
 
 	return (
-		<>
+		<div>
 			<Navbar bg="success" variant="dark" expand="lg">
 				<Container fluid>
 					<Navbar.Brand href="#home"
@@ -74,19 +75,19 @@ export const App = () => {
 			</Navbar>
 			<Container fluid>
 				{nav === homeIndex ? (
-					<>
+					<div style={{height: "auto"}}>
 						<div style={{ alignSelf: "flex-end" }}>
-							<div>
-								<div style={{ color: "#000000"}}>
+							<div className="komorebiIntroduction">
+								<div>
 									<p>Imagine you are walking along a path through the forest.</p>
 									<p> Your thoughts, ideas and musings appear as trees
-									either side of you. </p> 
+										either side of you. </p>
 									<p>You can record and listen to your memories. </p>
 									<p>Your mind is illuminated by the marks you
-									have made on the branches of the trees.</p>
+										have made on the branches of the trees.</p>
 								</div>
 								<div>
-									Please <a href="#" onClick={onList}>Enter</a>
+									Please <a className="linkOnBackground" href="#" onClick={onList}>Enter</a>
 								</div>
 							</div>
 						</div>
@@ -102,7 +103,7 @@ export const App = () => {
 								<img src={orientalPath} />
 							</div>
 						</div>
-					</>
+					</div>
 
 				) : (
 					""
@@ -111,6 +112,6 @@ export const App = () => {
 			</Container>
 			{showPreferences ? <PreferenceEditor setClose={setShowPreferences} /> : ""}
 			{showSyncDialog ? <SyncDialog setShow={setShowSyncDialog} /> : ""}
-		</>
+		</div>
 	);
 };

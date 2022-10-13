@@ -117,7 +117,7 @@ export function List() {
     };
 
     return (
-        <Table striped bordered hover size="sm">
+        <Table striped bordered hover variant="dark" size="sm">
             <colgroup>
                 <col style={{ width: "5%" }} />
                 <col style={{ width: "90%" }} />

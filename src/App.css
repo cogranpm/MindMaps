@@ -43,3 +43,28 @@
     height: 26px;
     border: 1px solid black;
 }
+
+.komorebiIntroduction{
+	font-family: 'IBM Plex Mono', san serif;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding: 4px 4px 4px 4px;
+	margin: 20px 5px 5px 5px;	
+	background: rgba(0,0,0,0.5);
+}
+
+.linkOnBackground:link {
+	color: #FFFFFF;
+}
+
+.linkOnBackground:visited{
+	color: #FFFFFF;
+}
+
+.linkOnBackground:active{
+	color: #FFFFFF;
+}
+
+.linkOnBackground:hover{
+	color: #FFFFFF;
+}
