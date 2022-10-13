@@ -5,8 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /*
   background-repeat: repeat;
-  background-image: url(public/images/ice-backdrop.png)
+  background-image: url(public/images/ice-backdrop.png);
+  */
+	background: rgb(2,0,36);
+	background: linear-gradient(9deg, rgba(2,0,36,1) 0%, rgba(115,121,9,0.9864320728291317) 57%, rgba(0,212,255,1) 100%);
 }
 
 code {

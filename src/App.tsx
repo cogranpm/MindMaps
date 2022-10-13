@@ -74,27 +74,36 @@ export const App = () => {
 			</Navbar>
 			<Container fluid>
 				{nav === homeIndex ? (
-					<div style={{
-						display: "flex",
-						marginTop: "80px",
-						justifyContent: "center",
-						alignItems: "center",
-						height: "100%"
-					}} >
+					<>
 						<div style={{ alignSelf: "flex-end" }}>
-							<img src={orientalPath} />
 							<div>
-								Imagine you are walking along a path through the forest. Your thoughts, ideas and musings appear as trees
-								either side of you. You can record your voice and listen to it. Your memory is illuminated by the marks you
-								have made on the branches of the trees.
-
-							</div>
-							<div>
-								Please <a href="#" onClick={onList}>Enter</a>
+								<div style={{ color: "#000000"}}>
+									<p>Imagine you are walking along a path through the forest.</p>
+									<p> Your thoughts, ideas and musings appear as trees
+									either side of you. </p> 
+									<p>You can record and listen to your memories. </p>
+									<p>Your mind is illuminated by the marks you
+									have made on the branches of the trees.</p>
+								</div>
+								<div>
+									Please <a href="#" onClick={onList}>Enter</a>
+								</div>
 							</div>
 						</div>
 
-					</div>
+						<div style={{
+							display: "flex",
+							marginTop: "80px",
+							justifyContent: "center",
+							alignItems: "center",
+							height: "100%"
+						}} >
+							<div style={{ alignSelf: "flex-end" }}>
+								<img src={orientalPath} />
+							</div>
+						</div>
+					</>
+
 				) : (
 					""
 				)}
