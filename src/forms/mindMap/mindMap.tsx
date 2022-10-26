@@ -6,7 +6,7 @@
 
 import React, { useEffect, useReducer, useState } from "react";
 import { List } from "./list";
-import { Tree } from "./tree";
+//import { Tree } from "./tree";
 import { TreeDom } from "./treeDom";
 import { Container, Row, Col, Tabs, Tab, CloseButton, Nav } from "react-bootstrap";
 
@@ -14,7 +14,7 @@ import { appReducer } from "../models/mindMaps/reducer";
 import { initialAppState, MindMap, TabItem } from "../models/mindMaps/state";
 import { AppContext } from "../models/mindMaps/context";
 import { House } from "react-bootstrap-icons";
-import EdiText from "react-editext";
+//import EdiText from "react-editext";
 import { ActionType } from "../models/mindMaps/actions";
 import { getMindMapFromCache } from "../models/mindMaps/factories";
 import { logMessage, logSystemError } from "../../shared/errorHandling";
@@ -27,222 +27,126 @@ import { ContextMenu } from "./elements/contextMenu";
 import { TitleEditor } from "./elements/titleEditor";
 
 export function MindMapView() {
-    const [state, dispatch] = useReducer(appReducer, initialAppState);
-    const mindMap = getMindMapFromCache(state);
+	const [state, dispatch] = useReducer(appReducer, initialAppState);
+	const mindMap = getMindMapFromCache(state);
 
-    const [tabClosed, setTabClosed] = useState(false);
+	const [tabClosed, setTabClosed] = useState(false);
 
-    /*
-      useEffect(() => {
-          logMessage("map just rendered");
-      });
-    */
+	/*
+	  useEffect(() => {
+		  logMessage("map just rendered");
+	  });
+	*/
 
-    useEffect(() => {
-        if (tabClosed) {
-            if (state.tabs.length === 0) {
-                dispatch({ type: ActionType.SwitchTab, payload: { tabId: "home" } });
-            } else {
-                const lastTab = state.tabs[state.tabs.length - 1].mindMap._id
-                dispatch({ type: ActionType.SwitchTab, payload: { tabId: lastTab } });
-            }
-            setTabClosed(false);
-        }
-    }, [tabClosed]);
+	useEffect(() => {
+		if (tabClosed) {
+			if (state.tabs.length === 0) {
+				dispatch({ type: ActionType.SwitchTab, payload: { tabId: "home" } });
+			} else {
+				const lastTab = state.tabs[state.tabs.length - 1].mindMap._id
+				dispatch({ type: ActionType.SwitchTab, payload: { tabId: lastTab } });
+			}
+			setTabClosed(false);
+		}
+	}, [tabClosed]);
 
-    const handleSave = async (e: string) => {
-        try {
-            const mindMap = getMindMapFromCache(state);
-            if (mindMap !== undefined) {
-                mindMap.name = e;
-                persist(FETCH_ID_PUTMINDMAP, mindMap, saveCallback);
-            }
-        } catch (err) {
-            logSystemError(err, "Error saving mind map");
-        }
-    };
+	const handleSave = async (e: string) => {
+		try {
+			const mindMap = getMindMapFromCache(state);
+			if (mindMap !== undefined) {
+				mindMap.name = e;
+				persist(FETCH_ID_PUTMINDMAP, mindMap, saveCallback);
+			}
+		} catch (err) {
+			logSystemError(err, "Error saving mind map");
+		}
+	};
 
-    const saveCallback = (e: Content) => {
-        const updatedMindMap = e as MindMap;
-        dispatch({
-            type: ActionType.EditMindMap,
-            payload: { updatedEntity: updatedMindMap },
-        });
-    };
+	const saveCallback = (e: Content) => {
+		const updatedMindMap = e as MindMap;
+		dispatch({
+			type: ActionType.EditMindMap,
+			payload: { updatedEntity: updatedMindMap },
+		});
+	};
 
-    const handleSelect = (e: string | null) => {
-        if (e !== null) {
-            dispatch({ type: ActionType.SwitchTab, payload: { tabId: e } });
-        }
-    };
+	const handleSelect = (e: string | null) => {
+		if (e !== null) {
+			dispatch({ type: ActionType.SwitchTab, payload: { tabId: e } });
+		}
+	};
 
-    const handleCloseTab = async (tabItem: TabItem) => {
-        dispatch({ type: ActionType.CloseTab, payload: { tabItem: tabItem } });
-        setTabClosed(true)
-    };
-
-
-    const addBranchHandler = async (map: MindMap, orientation: XOrientation) => {
-        addBranch(map, orientation, dispatch);
-    };
+	const handleCloseTab = async (tabItem: TabItem) => {
+		dispatch({ type: ActionType.CloseTab, payload: { tabItem: tabItem } });
+		setTabClosed(true)
+	};
 
 
-    return (
-        <AppContext.Provider value={{ state, dispatch }}>
-
-            <Tabs
-                id="groveTabs"
-                activeKey={state.activeTabId}
-                className="mb-2"
-                onSelect={handleSelect}
-            >
-                <Tab eventKey="home" key={"home"} title={<House />}>
-                    <div>
-                        <Container fluid>
-                            <Row>
-                                <Col>
-                                    <List />
-                                </Col>
-                            </Row>
-                        </Container>
-                    </div>
-                </Tab>
-                {state.tabs.map((tabItem: TabItem) => {
-                    return (
-                        <Tab
-                            key={tabItem.mindMap._id}
-                            eventKey={tabItem.mindMap._id}
-                            title={
-                                <div style={{ display: "grid", gridTemplateColumns: "max-content auto", gridTemplateRows: "auto", height: "35px" }}>
-                                    <div>
-                                        <TitleEditor title={tabItem.mindMap.name} handleSave={handleSave} shapeType={ShapeType.TrunkTitle} />
-                                    </div>
-                                    <div>
-                                        <CloseButton
-                                            aria-label="Close Tab"
-                                            onClick={() => handleCloseTab(tabItem)}
-                                        />
-                                    </div>
-                                </div>
-                            }
-                        >
-                            <Container fluid>
-                                <Row>
-                                    <Col onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}>
-                                        <TreeDom tabItem={tabItem} handleTitleSave={handleSave} />
-                                        {mindMap ? <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu> : ""}
-
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Tab>
-                    );
-                })}
-            </Tabs>
+	const addBranchHandler = async (map: MindMap, orientation: XOrientation) => {
+		addBranch(map, orientation, dispatch);
+	};
 
 
-            {/*
-            <Nav
-              variant="tabs"
-              id="groveTabs"
-              activeKey={state.activeTabId}
-              className="mb-3"
-              onSelect={handleSelect}
-            >
-                <Nav.Item eventKey="home" key={"home"} title={<House />}>
-                    <div>
-                        <Container fluid>
-                            <Row>
-                                <Col>
-                                    <List />
-                                </Col>
-                            </Row>
-                        </Container>
-                    </div>
-                </Nav.Item>
-                {state.tabs.map((tabItem: TabItem) => {
-                    return (
-                        <Nav.Item
-                            key={tabItem.mindMap._id}
-                            eventKey={tabItem.mindMap._id}
-                            title={
-                                <Container>
-                                    <Row>
-                                        <Col>
-                                            <EdiText
-                                                type="text"
-                                                value={tabItem.mindMap.name}
-                                                onSave={handleSave}
-                                                tabIndex={0}
-                                                editing={false}
-                                                editOnViewClick={false}
-                                                submitOnEnter={true}
-                                                submitOnUnfocus={true}
-                                                cancelOnEscape={true}
-                                                startEditingOnEnter={true}
-                                                showButtonsOnHover={true}
-                                                buttonsAlign="after"
-                                                containerProps={{
-                                                    style: {
-                                                    }
-                                                }}
-                                                inputProps={{
-                                                    style: {
-                                                        width: "260px",
-                                                        fontFamily: "'Roboto', san serif",
-                                                        fontSize: "9pt"
-                                                    },
+	return (
+		<AppContext.Provider value={{ state, dispatch }}>
 
-                                                }}
-                                                editButtonProps={{
-                                                    style: {
-                                                        height: "40px",
-                                                        width: "50px",
-                                                        borderRadius: "5px",
-                                                        padding: "0"
-                                                    }
-                                                }}
-                                                viewProps={{
-                                                    style: {
-                                                        margin: "0",
-                                                        padding: "0",
-                                                        fontFamily: "'Roboto', san serif",
-                                                        fontSize: "9pt",
-                                                        color: "#000000",
-                                                        minWidth: "130px",
-                                                        maxWidth: "200px",
-                                                        width: "auto"
-                                                    },
-                                                }}
-                                            />
-                                        </Col>
-                                        <Col>
-                                            <CloseButton
-                                                aria-label="Close Tab"
-                                                onClick={() => handleCloseTab(tabItem)}
-                                            />
-                                        </Col>
-                                    </Row>
-                                </Container>
-                            }
-                        >
-                            <Container fluid>
-                                <Row>
-                                    <Col onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}>
-
-                                        <TreeDom tabItem={tabItem} />
-                                        {mindMap ? <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu> : ""}
-
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Nav.Item>
-                    );
-                })}
-            </Nav>
-
-
-            */}
-        </AppContext.Provider>
-    );
+			<Row style={{ height: "100%" }}><Col>
+				<Tabs
+					id="groveTabs"
+					activeKey={state.activeTabId}
+					className="mb-2"
+					onSelect={handleSelect}
+				>
+					<Tab eventKey="home" key={"home"} title={<House />}>
+						<Container fluid>
+							<Row>
+								<Col>
+									<List />
+								</Col>
+							</Row>
+						</Container>
+					</Tab>
+					{state.tabs.map((tabItem: TabItem) => {
+						return (
+							<Tab
+								style={{ height: "100%" }}
+								key={tabItem.mindMap._id}
+								eventKey={tabItem.mindMap._id}
+								title={
+									<div style={{
+										display: "grid",
+										gridTemplateColumns:
+											"max-content auto",
+										gridTemplateRows: "auto",
+										height: "35px"
+									}}>
+										<div>
+											<TitleEditor title={tabItem.mindMap.name} handleSave={handleSave} shapeType={ShapeType.TrunkTitle} />
+										</div>
+										<div>
+											<CloseButton
+												aria-label="Close Tab"
+												onClick={() => handleCloseTab(tabItem)}
+											/>
+										</div>
+									</div>
+								}
+							>
+								<Container fluid style={{ height: "100%" }}>
+									<Row style={{ height: "100%" }}>
+										<Col
+											style={{ height: "100%" }}
+											onKeyDown={(e) => onKeyPress(e, mindMap, addBranchHandler)}>
+											<TreeDom tabItem={tabItem} handleTitleSave={handleSave} />
+											{mindMap ? <ContextMenu map={mindMap} dispatch={dispatch}></ContextMenu> : ""}
+										</Col>
+									</Row>
+								</Container>
+							</Tab>
+						);
+					})}
+				</Tabs>
+			</Col></Row>
+		</AppContext.Provider>
+	);
 }

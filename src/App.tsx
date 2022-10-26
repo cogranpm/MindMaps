@@ -52,7 +52,7 @@ export const App = () => {
 	}
 
 	return (
-		<div>
+		<div className="mostOuterContainer">
 			<Navbar bg="success" variant="dark" expand="lg">
 				<Container fluid>
 					<Navbar.Brand href="#home"
